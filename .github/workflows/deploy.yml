@@ -23,7 +23,6 @@ jobs:
       # Step 3: Install front-end dependencies and build React app
       - name: Install and Build Frontend
         run: |
-          cd front-end
           npm ci
           npm run build
         working-directory: quantum-server-dashboard/front-end  # Path to your React project
