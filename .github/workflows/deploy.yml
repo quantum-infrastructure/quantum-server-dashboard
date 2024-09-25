@@ -1,9 +1,3 @@
-nano .github/workflows/deploy.yml
-Paste the Workflow Configuration:
-
-In the nano editor, paste the following YAML configuration. You can paste by right-clicking or using Command + V:
-yaml
-Copy code
 name: Deploy Frontend and Backend
 
 on:
