@@ -26,7 +26,7 @@ jobs:
           cd front-end
           npm ci
           npm run build
-        working-directory: ./project/front-end  # Path to your React project
+        working-directory: ./quantum-server-dashboard/front-end  # Path to your React project
 
       # Step 4: Configure AWS CLI credentials using GitHub Secrets
       - name: Configure AWS Credentials
@@ -39,14 +39,14 @@ jobs:
       # Step 5: Sync the React app build files to the S3 bucket
       - name: Deploy Frontend to S3
         run: |
-          aws s3 sync ./project/front-end/build s3://${{ secrets.S3_BUCKET_NAME }} --delete
+          aws s3 sync ./quantum-server-dashboard/front-end/build s3://${{ secrets.S3_BUCKET_NAME }} --delete
 
       # Step 6: Install CDK dependencies for the backend
       - name: Install CDK Dependencies
         run: npm ci
-        working-directory: ./project/back-end  # Path to your CDK project
+        working-directory: ./quantum-server-dashboard/back-end  # Path to your CDK project
 
       # Step 7: Deploy the API using AWS CDK
       - name: Deploy API with CDK
         run: npm run cdk deploy -- --require-approval never
-        working-directory: ./project/back-end
+        working-directory: ./quantum-server-dashboard/back-end
