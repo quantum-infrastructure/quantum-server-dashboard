@@ -1,0 +1,58 @@
+nano .github/workflows/deploy.yml
+Paste the Workflow Configuration:
+
+In the nano editor, paste the following YAML configuration. You can paste by right-clicking or using Command + V:
+yaml
+Copy code
+name: Deploy Frontend and Backend
+
+on:
+  push:
+    branches:
+      - main  # Trigger deployment on push to 'main' branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the source code from the repo
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js for React build
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+
+      # Step 3: Install front-end dependencies and build React app
+      - name: Install and Build Frontend
+        run: |
+          cd front-end
+          npm ci
+          npm run build
+        working-directory: ./project/front-end  # Path to your React project
+
+      # Step 4: Configure AWS CLI credentials using GitHub Secrets
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1  # Change this to your AWS region
+
+      # Step 5: Sync the React app build files to the S3 bucket
+      - name: Deploy Frontend to S3
+        run: |
+          aws s3 sync ./project/front-end/build s3://${{ secrets.S3_BUCKET_NAME }} --delete
+
+      # Step 6: Install CDK dependencies for the backend
+      - name: Install CDK Dependencies
+        run: npm ci
+        working-directory: ./project/back-end  # Path to your CDK project
+
+      # Step 7: Deploy the API using AWS CDK
+      - name: Deploy API with CDK
+        run: npm run cdk deploy -- --require-approval never
+        working-directory: ./project/back-end
