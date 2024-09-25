@@ -1,0 +1,14 @@
+query getAllInstances {
+  getAllIntstances {
+    success
+    data {
+     
+      instanceId
+      name
+      keyPair
+      vpc
+      groups
+    }
+    totalCount
+  }
+}

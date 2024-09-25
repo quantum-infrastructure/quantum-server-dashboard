@@ -1,0 +1,13 @@
+query GetSession ($sessionToken: String!) {
+  getSession(sessionToken: $sessionToken) {
+    success
+    data {
+      id
+      sessionToken
+      user {
+        email
+        id
+      }
+    }
+  }
+}

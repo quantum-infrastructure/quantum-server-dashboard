@@ -1,0 +1,56 @@
+{
+  "name": "cdk",
+  "version": "0.1.0",
+  "bin": {
+    "cdk": "bin/cdk.js"
+  },
+  "scripts": {
+    "build": "tsc --build tsconfig.build.json",
+    "dev": "nodemon",
+    "start-local": "ts-node ./src/index",
+    "start-offline": "serverless offline start --host 0.0.0.0",
+    "devStart": "nodemon server.js",
+    "start": "gulp local-server",
+    "deploy": "gulp deploy"
+  },
+  "devDependencies": {
+    "@types/aws-serverless-express": "^3.3.9",
+    "@types/cors": "^2.8.17",
+    "@types/fs-extra": "^11.0.4",
+    "@types/jest": "^29.5.12",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/koa": "^2.15.0",
+    "@types/node": "22.5.4",
+    "@types/uuid": "^10.0.0",
+    "aws-cdk": "^2.158.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.6.2"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.11.0",
+    "@aws-sdk/client-s3": "^3.651.1",
+    "@aws-sdk/lib-storage": "^3.651.1",
+    "apollo-server": "^3.13.0",
+    "aws-cdk-lib": "2.158.0",
+    "aws-lambda": "^1.0.7",
+    "aws-serverless-express": "^3.4.0",
+    "class-validator": "^0.14.1",
+    "constructs": "^10.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "fs-extra": "^11.2.0",
+    "graphql-upload-ts": "^2.1.2",
+    "gulp": "^5.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "koa": "^2.15.3",
+    "reflect-metadata": "^0.2.2",
+    "source-map-support": "^0.5.21",
+    "terminate": "^2.8.0",
+    "type-graphql": "^2.0.0-rc.2",
+    "typedi": "^0.10.0",
+    "uuid": "^10.0.0"
+  }
+}
