@@ -1,5 +1,4 @@
-
-name: Deploy Frontend and Backend
+name: Deploy Frontend and Backend as ZIP
 
 on:
   push:
@@ -15,38 +14,63 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Node.js for React build
-      - name: Set up Node.js
+      # Step 2: Set up Node.js for Frontend
+      - name: Set up Node.js for Frontend
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'
+          node-version: '20.x'  # Set Node.js version to 20
 
-      # Step 3: Install front-end dependencies and build React app
+      # Step 3: Install dependencies and build Frontend
       - name: Install and Build Frontend
         run: |
           npm ci
           npm run build
-        working-directory: front-end  # Path to your React project (no quantum-server-dashboard/ prefix)
+        working-directory: front-end  # Path to your React project
 
-      # Step 4: Configure AWS CLI credentials using GitHub Secrets
+      # Step 4: Zip the Frontend Build
+      - name: Zip Frontend Build
+        run: |
+          zip -r front-end.zip build/
+        working-directory: front-end
+
+      # Step 5: Set up Node.js for Backend
+      - name: Set up Node.js for Backend
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'  # Set Node.js version to 20
+
+      # Step 6: Install Backend Dependencies
+      - name: Install Backend Dependencies
+        run: npm ci
+        working-directory: back-end  # Path to your backend project
+
+      # Step 7: Zip the Backend
+      - name: Zip Backend Code
+        run: |
+          zip -r back-end.zip .  # Zips everything in the back-end folder
+        working-directory: back-end
+
+      # Step 8: Configure AWS CLI credentials using GitHub Secrets
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1  # Change this to your AWS region
+          aws-region: us-east-1  # Adjust region accordingly
 
-      # Step 5: Sync the React app build files to the S3 bucket
-      - name: Deploy Frontend to S3
+      # Step 9: Create S3 Bucket (if it doesn't exist)
+      - name: Create S3 Bucket
         run: |
-          aws s3 sync front-end/build s3://${{ secrets.S3_BUCKET_NAME }} --delete 
+          aws s3api create-bucket --bucket ${{ secrets.S3_BUCKET_NAME }} --region us-east-1 --create-bucket-configuration LocationConstraint=us-east-1 || echo "Bucket already exists"
+        env:
+          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
 
-      # Step 6: Install CDK dependencies for the backend
-      - name: Install CDK Dependencies
-        run: npm ci
-        working-directory: back-end  # Path to your CDK project (no quantum-server-dashboard/ prefix)
+      # Step 10: Upload Frontend ZIP to S3
+      - name: Upload Frontend ZIP to S3
+        run: |
+          aws s3 cp front-end/front-end.zip s3://${{ secrets.S3_BUCKET_NAME }}/frontend.zip
 
-      # Step 7: Deploy the API using AWS CDK
-      - name: Deploy API with CDK
-        run: npm run cdk deploy -- --require-approval never
-        working-directory: back-end
+      # Step 11: Upload Backend ZIP to S3
+      - name: Upload Backend ZIP to S3
+        run: |
+          aws s3 cp back-end/back-end.zip s3://${{ secrets.S3_BUCKET_NAME }}/backend.zip
