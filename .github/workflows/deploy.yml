@@ -1,4 +1,4 @@
-name: Deploy Frontend and Backend as ZIP
+ame: Deploy Frontend and Backend as ZIP
 
 on:
   push:
@@ -27,30 +27,40 @@ jobs:
           npm run build
         working-directory: front-end  # Path to your React project
 
-      # Step 4: Zip the Frontend Build
+      # Step 4: Remove dev dependencies for Frontend
+      - name: Remove Dev Dependencies for Frontend
+        run: npm prune --production
+        working-directory: front-end
+
+      # Step 5: Zip the Frontend Build
       - name: Zip Frontend Build
         run: |
           zip -r front-end.zip build/
         working-directory: front-end
 
-      # Step 5: Set up Node.js for Backend
+      # Step 6: Set up Node.js for Backend
       - name: Set up Node.js for Backend
         uses: actions/setup-node@v3
         with:
           node-version: '20.x'  # Set Node.js version to 20
 
-      # Step 6: Install Backend Dependencies
+      # Step 7: Install Backend Dependencies
       - name: Install Backend Dependencies
         run: npm ci
         working-directory: back-end  # Path to your backend project
 
-      # Step 7: Zip the Backend
+      # Step 8: Remove Dev Dependencies for Backend
+      - name: Remove Dev Dependencies for Backend
+        run: npm prune --production
+        working-directory: back-end
+
+      # Step 9: Zip the Backend
       - name: Zip Backend Code
         run: |
           zip -r back-end.zip .  # Zips everything in the back-end folder
         working-directory: back-end
 
-      # Step 8: Configure AWS CLI credentials using GitHub Secrets
+      # Step 10: Configure AWS CLI credentials using GitHub Secrets
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -58,19 +68,19 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1  # Adjust region accordingly
 
-      # Step 9: Create S3 Bucket (if it doesn't exist)
+      # Step 11: Create S3 Bucket (if it doesn't exist)
       - name: Create S3 Bucket
         run: |
           aws s3api create-bucket --bucket ${{ secrets.S3_BUCKET_NAME }} --region us-east-1 --create-bucket-configuration LocationConstraint=us-east-1 || echo "Bucket already exists"
         env:
           S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
 
-      # Step 10: Upload Frontend ZIP to S3
+      # Step 12: Upload Frontend ZIP to S3
       - name: Upload Frontend ZIP to S3
         run: |
           aws s3 cp front-end/front-end.zip s3://${{ secrets.S3_BUCKET_NAME }}/frontend.zip
 
-      # Step 11: Upload Backend ZIP to S3
+      # Step 13: Upload Backend ZIP to S3
       - name: Upload Backend ZIP to S3
         run: |
           aws s3 cp back-end/back-end.zip s3://${{ secrets.S3_BUCKET_NAME }}/backend.zip
