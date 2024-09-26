@@ -1,4 +1,4 @@
-ame: Deploy Frontend and Backend as ZIP
+name: Deploy Frontend and Backend as ZIP
 
 on:
   push:
