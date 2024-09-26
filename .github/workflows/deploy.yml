@@ -39,7 +39,7 @@ jobs:
       # Step 5: Sync the React app build files to the S3 bucket
       - name: Deploy Frontend to S3
         run: |
-          aws s3 sync ./front-end/build s3://${{ secrets.S3_BUCKET_NAME }} --delete  # No quantum-server-dashboard/ prefix
+          aws s3 sync front-end/build s3://${{ secrets.S3_BUCKET_NAME }} --delete  # No quantum-server-dashboard/ prefix
 
       # Step 6: Install CDK dependencies for the backend
       - name: Install CDK Dependencies
