@@ -26,7 +26,7 @@ jobs:
           cd front-end
           npm ci
           npm run build
-        working-directory: front-end  # Path to your React project
+        working-directory: /front-end  # Path to your React project
 
       # Step 4: Configure AWS CLI credentials using GitHub Secrets
       - name: Configure AWS Credentials
