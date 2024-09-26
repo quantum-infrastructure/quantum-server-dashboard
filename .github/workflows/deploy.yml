@@ -1,4 +1,3 @@
-
 name: Deploy Frontend and Backend
 
 on:
@@ -26,7 +25,7 @@ jobs:
         run: |
           npm ci
           npm run build
-        working-directory: front-end  # Path to your React project (no quantum-server-dashboard/ prefix)
+        working-directory: front-end  # Path to your React project
 
       # Step 4: Configure AWS CLI credentials using GitHub Secrets
       - name: Configure AWS Credentials
@@ -36,17 +35,24 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1  # Change this to your AWS region
 
-      # Step 5: Sync the React app build files to the S3 bucket
+      # Step 5: Create S3 bucket if it doesn't exist
+      - name: Create S3 Bucket
+        run: |
+          aws s3api create-bucket --bucket ${{ secrets.S3_BUCKET_NAME }} --region us-east-1 --create-bucket-configuration LocationConstraint=us-east-1 || echo "Bucket already exists"
+        env:
+          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+
+      # Step 6: Sync the React app build files to the S3 bucket
       - name: Deploy Frontend to S3
         run: |
-          aws s3 sync front-end/build s3://${{ secrets.S3_BUCKET_NAME }} --delete 
+          aws s3 sync front-end/build s3://${{ secrets.S3_BUCKET_NAME }} --delete
 
-      # Step 6: Install CDK dependencies for the backend
+      # Step 7: Install CDK dependencies for the backend
       - name: Install CDK Dependencies
         run: npm ci
-        working-directory: back-end  # Path to your CDK project (no quantum-server-dashboard/ prefix)
+        working-directory: back-end  # Path to your CDK project
 
-      # Step 7: Deploy the API using AWS CDK
+      # Step 8: Deploy the API using AWS CDK
       - name: Deploy API with CDK
         run: npm run cdk deploy -- --require-approval never
         working-directory: back-end
