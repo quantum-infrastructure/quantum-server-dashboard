@@ -15,11 +15,8 @@ import ApolloContextProvider from './context/apollo-context';
 import { AuthProvider } from './context/authentication-context';
 import Main from './components/main/main';
 import { BrowserRouter } from 'react-router-dom';
-import Categories from './pages/dashboard/instance';
 import Dashboard from './pages/dashboard';
-import Instance from './pages/dashboard/instance';
 import PopupContextProvider from './components/popup/popup';
-import CreateInstance from './pages/dashboard/instance/create-intsance';
 import FileUpload from './pages/dashboard/file-upload';
 
 
@@ -39,8 +36,6 @@ root.render(
 
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard/instance" element={<Instance />} />
-        <Route path="/dashboard/instance/create-instance" element={<CreateInstance />} />
         <Route path="/dashboard/file-upload" element={<FileUpload />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="*" element={<App />} />
