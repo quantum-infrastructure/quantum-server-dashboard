@@ -12,12 +12,12 @@
 
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authentication-context";
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 function Login() {
   // const { user } = useAuth();
-  const { user, login, logout, sessionCheckStatus,loginResult } = useContext(AuthContext);
+  const { user, login,loginResult } = useContext(AuthContext);
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
