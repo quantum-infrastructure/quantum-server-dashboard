@@ -12,6 +12,7 @@ import { onError } from "@apollo/client/link/error";
 // import { AuthenticationContext } from "@/components/context/authentication-context";
 import { toast } from "react-toastify";
 import createUploadLink from "apollo-upload-client/createUploadLink.mjs";
+import { ApiLookUpContext } from "./api-look-up-context";
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
@@ -51,9 +52,15 @@ function ApolloContextProvider({
     setAuthTokenState(token);
   }, [])
 
+  const { graphUrl } = ApiLookUpContext();
+
+
+  console.log(graphUrl,"UUUUURLLLLL")
+
   const apolloClient = useMemo(() => {
     const uploadLink = createUploadLink({
-      uri: process.env.REACT_APP_GRAPH_URL,
+      uri: graphUrl,
+      // uri: process.env.REACT_APP_GRAPH_URL,
       headers: {
         Authorization: `Bearer ${authToken}`,
       },

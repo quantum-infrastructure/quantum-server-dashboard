@@ -13,11 +13,17 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authentication-context";
 import { useNavigate } from 'react-router-dom';
+import { ApiLookUpContext } from "../../context/api-look-up-context";
 
 
 function Login() {
   // const { user } = useAuth();
   const { user, login,loginResult } = useContext(AuthContext);
+
+  const { graphUrl } = ApiLookUpContext();
+
+  console.log(graphUrl,"HIIII")
+
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -41,6 +47,9 @@ function Login() {
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
           Sign In
+          {/* {error ? <p style={{ color: 'red' }}>{error}</p> : <p>{graphUrl}</p>} */}
+          {graphUrl}
+
         </h2>
         <form
           method="post"

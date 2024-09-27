@@ -13,13 +13,14 @@ export const handler = async (
   event: APIGatewayProxyEvent,
   context: Context
 ): Promise<APIGatewayProxyResult> => {
-  // if (!server) {
-  //   const app = await getApp(); // Get the Express app
-  //   server = awsServerlessExpress.createServer(app); // Create the Lambda server
-  // }
+  
+  if (!server) {
+    const app = await getApp(); // Get the Express app
+    server = awsServerlessExpress.createServer(app); // Create the Lambda server
+  }
 
-  // return awsServerlessExpress.proxy(server, event, context, 'PROMISE').promise;
-  return awsServerlessExpress.proxy(awsServerlessExpress.createServer(await getApp()), event, context, 'PROMISE').promise;
+  return awsServerlessExpress.proxy(server, event, context, 'PROMISE').promise;
+  // return awsServerlessExpress.proxy(awsServerlessExpress.createServer(await getApp()), event, context, 'PROMISE').promise;
 
 };
 

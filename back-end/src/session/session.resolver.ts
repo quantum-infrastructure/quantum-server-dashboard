@@ -21,9 +21,11 @@ export class SessionResolver {
     @Arg('email') email: string,
     @Arg('password') password: string,
   ) {
+    const ddd = Date.now()
     const respone = await this.sessionService.generateToken(email, password);
     
-    console.log("PUUUU")
+    const ddd2 = Date.now()
+    console.log(ddd - ddd2, ddd, ddd2)
 
     console.log(respone,"RESP")
     return {

@@ -14,6 +14,55 @@ import {
 } from './session/session.middleware';
 import { getApolloServer } from './apollo/apollo';
 
+
+export const getApp = async () => {
+  const expressServer = express();
+
+  // Define a basic route for `/`
+  expressServer.get('/', (req, res) => {
+    res.send('Hello, this is the root endpoint!');
+  });
+
+  const apolloServer = await getApolloServer();
+  expressServer.use(sessionMiddleware);
+
+  expressServer.use(
+    graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),
+  );
+
+  expressServer.use(
+    '/graphql',
+    cors<cors.CorsRequest>(),
+    express.json(),
+    
+    expressMiddleware(apolloServer as any, {
+      context: async ({ req }: { req: SessionRequest }) => ({
+        session: req.session,
+        ip:
+          req?.headers['cf-connecting-ip'] ||
+          req?.headers['x-real-ip'] ||
+          req?.headers['x-forwarded-for'] ||
+          req?.socket.remoteAddress ||
+          '',
+      }),
+    }),
+  );
+
+  return expressServer;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
 // import { graphqlUploadExpress } from "graphql-upload-ts";
 
 // export const getApp = async () => {
@@ -52,39 +101,3 @@ import { getApolloServer } from './apollo/apollo';
 //   return expressServer;
 // };
 
-
-
-export const getApp = async () => {
-  const expressServer = express();
-
-  // Define a basic route for `/`
-  expressServer.get('/', (req, res) => {
-    res.send('Hello, this is the root endpoint!');
-  });
-
-  const apolloServer = await getApolloServer();
-  expressServer.use(sessionMiddleware);
-
-  expressServer.use(
-    graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),
-  );
-
-  expressServer.use(
-    '/graphql',
-    cors<cors.CorsRequest>(),
-    express.json(),
-    expressMiddleware(apolloServer as any, {
-      context: async ({ req }: { req: SessionRequest }) => ({
-        session: req.session,
-        ip:
-          req?.headers['cf-connecting-ip'] ||
-          req?.headers['x-real-ip'] ||
-          req?.headers['x-forwarded-for'] ||
-          req?.socket.remoteAddress ||
-          '',
-      }),
-    }),
-  );
-
-  return expressServer;
-};

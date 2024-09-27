@@ -18,6 +18,7 @@ import { BrowserRouter } from 'react-router-dom';
 import Dashboard from './pages/dashboard';
 import PopupContextProvider from './components/popup/popup';
 import FileUpload from './pages/dashboard/file-upload';
+import {ApiLookUpContextProvider } from './context/api-look-up-context';
 
 
 
@@ -26,6 +27,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   // <React.StrictMode>
+  <ApiLookUpContextProvider>
     <ApolloContextProvider>
       			<PopupContextProvider>
 
@@ -47,6 +49,7 @@ root.render(
     </PopupContextProvider>
 
     </ApolloContextProvider>
+    </ApiLookUpContextProvider>
   // </React.StrictMode>
 );
 
