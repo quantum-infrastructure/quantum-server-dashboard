@@ -1,97 +1,3 @@
-# name: Deploy Frontend and Backend as ZIP
-
-# on:
-#   push:
-#     branches:
-#       - main  # Trigger deployment on push to 'main' branch
-
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       # Step 1: Checkout the source code from the repo
-#       - name: Checkout Code
-#         uses: actions/checkout@v3
-
-#       # Step 2: Set up Node.js for Frontend
-#       - name: Set up Node.js for Frontend
-#         uses: actions/setup-node@v3
-#         with:
-#           node-version: '20.x'  # Set Node.js version to 20
-
-#       # Step 3: Install dependencies and build Frontend
-#       - name: Install and Build Frontend
-#         run: |
-#           npm ci
-#           npm run build
-#         working-directory: front-end  # Path to your React project
-
-#       # Step 4: Remove dev dependencies for Frontend
-#       - name: Remove Dev Dependencies for Frontend
-#         run: npm prune --production
-#         working-directory: front-end
-
-#       # Step 5: Zip the Frontend Build
-#       - name: Zip Frontend Build
-#         run: |
-#           zip -r quantum-server-infranstucture-dashboard-front-end.zip build/
-#         working-directory: front-end
-
-#       # Step 6: Set up Node.js for Backend
-#       - name: Set up Node.js for Backend
-#         uses: actions/setup-node@v3
-#         with:
-#           node-version: '20.x'  # Set Node.js version to 20
-
-#       # Step 7: Install Backend Dependencies
-#       - name: Install Backend Dependencies
-#         run: npm ci
-#         working-directory: back-end  # Path to your backend project
-
-#       # Step 8: Build Backend (if applicable)
-#       - name: Build Backend
-#         run: npm run build  # Adjust this if your backend doesn't have a build script
-#         working-directory: back-end
-
-#       # Step 9: Remove Dev Dependencies for Backend
-#       - name: Remove Dev Dependencies for Backend
-#         run: npm prune --production
-#         working-directory: back-end
-
-#       # Step 10: Zip the Backend Code
-#       - name: Zip Backend Code
-#         run: |
-#           zip -r quantum-server-infranstucture-dashboard-back-end.zip .  # Zips everything in the back-end folder
-#         working-directory: back-end
-
-#       # Step 11: Configure AWS CLI credentials using GitHub Secrets
-#       - name: Configure AWS Credentials
-#         uses: aws-actions/configure-aws-credentials@v2
-#         with:
-#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#           aws-region: us-east-1  # Adjust region accordingly
-
-#       # Step 12: Create S3 Bucket (if it doesn't exist)
-#       - name: Create S3 Bucket
-#         run: |
-#           aws s3api create-bucket --bucket ${{ secrets.S3_BUCKET_NAME }} --region us-east-1 --create-bucket-configuration LocationConstraint=us-east-1 || echo "Bucket already exists"
-#         env:
-#           S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
-
-#       # Step 13: Upload Frontend ZIP to S3
-#       - name: Upload Frontend ZIP to S3
-#         run: |
-#           aws s3 cp front-end/quantum-server-infranstucture-dashboard-front-end.zip s3://${{ secrets.S3_BUCKET_NAME }}/quantum-server-infranstucture-dashboard-frontend.zip
-
-#       # Step 14: Upload Backend ZIP to S3
-#       - name: Upload Backend ZIP to S3
-#         run: |
-#           aws s3 cp back-end/quantum-server-infranstucture-dashboard-back-end.zip s3://${{ secrets.S3_BUCKET_NAME }}/quantum-server-infranstucture-dashboard-backend.zip
-
-
-
 name: Deploy Frontend and Backend as ZIP
 
 on:
@@ -129,44 +35,37 @@ jobs:
       # Step 5: Zip the Frontend Build
       - name: Zip Frontend Build
         run: |
-          cd front-end/build
-          zip -r ../../quantum-server-infranstucture-dashboard-front-end.zip .
-          cd ../..
+          zip -r quantum-server-infranstucture-dashboard-front-end.zip build/
+        working-directory: front-end
 
-      # Step 6: Unzip Frontend Build into a temp directory
-      - name: Unzip Frontend Build
-        run: |
-          mkdir -p temp_frontend
-          unzip -j quantum-server-infranstucture-dashboard-front-end.zip -d temp_frontend
-
-      # Step 7: Set up Node.js for Backend
+      # Step 6: Set up Node.js for Backend
       - name: Set up Node.js for Backend
         uses: actions/setup-node@v3
         with:
           node-version: '20.x'  # Set Node.js version to 20
 
-      # Step 8: Install Backend Dependencies
+      # Step 7: Install Backend Dependencies
       - name: Install Backend Dependencies
         run: npm ci
         working-directory: back-end  # Path to your backend project
 
-      # Step 9: Build Backend (if applicable)
+      # Step 8: Build Backend (if applicable)
       - name: Build Backend
         run: npm run build  # Adjust this if your backend doesn't have a build script
         working-directory: back-end
 
-      # Step 10: Remove Dev Dependencies for Backend
+      # Step 9: Remove Dev Dependencies for Backend
       - name: Remove Dev Dependencies for Backend
         run: npm prune --production
         working-directory: back-end
 
-      # Step 11: Zip the Backend Code
+      # Step 10: Zip the Backend Code
       - name: Zip Backend Code
         run: |
           zip -r quantum-server-infranstucture-dashboard-back-end.zip .  # Zips everything in the back-end folder
         working-directory: back-end
 
-      # Step 12: Configure AWS CLI credentials using GitHub Secrets
+      # Step 11: Configure AWS CLI credentials using GitHub Secrets
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -174,19 +73,120 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1  # Adjust region accordingly
 
-      # Step 13: Create S3 Bucket (if it doesn't exist)
+      # Step 12: Create S3 Bucket (if it doesn't exist)
       - name: Create S3 Bucket
         run: |
           aws s3api create-bucket --bucket ${{ secrets.S3_BUCKET_NAME }} --region us-east-1 --create-bucket-configuration LocationConstraint=us-east-1 || echo "Bucket already exists"
         env:
           S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
 
-      # Step 14: Upload Unzipped Frontend files to S3
-      - name: Upload Unzipped Frontend to S3
+      # Step 13: Upload Frontend ZIP to S3
+      - name: Upload Frontend ZIP to S3
         run: |
-          aws s3 cp temp_frontend/ s3://${{ secrets.S3_BUCKET_NAME }}/ --recursive
+          aws s3 cp front-end/quantum-server-infranstucture-dashboard-front-end.zip s3://${{ secrets.S3_BUCKET_NAME }}/quantum-server-infranstucture-dashboard-frontend.zip
 
-      # Step 15: Upload Backend ZIP to S3
+      # Step 14: Upload Backend ZIP to S3
       - name: Upload Backend ZIP to S3
         run: |
           aws s3 cp back-end/quantum-server-infranstucture-dashboard-back-end.zip s3://${{ secrets.S3_BUCKET_NAME }}/quantum-server-infranstucture-dashboard-backend.zip
+
+
+
+# name: Deploy Frontend and Backend as ZIP
+
+# on:
+#   push:
+#     branches:
+#       - main  # Trigger deployment on push to 'main' branch
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       # Step 1: Checkout the source code from the repo
+#       - name: Checkout Code
+#         uses: actions/checkout@v3
+
+#       # Step 2: Set up Node.js for Frontend
+#       - name: Set up Node.js for Frontend
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: '20.x'  # Set Node.js version to 20
+
+#       # Step 3: Install dependencies and build Frontend
+#       - name: Install and Build Frontend
+#         run: |
+#           npm ci
+#           npm run build
+#         working-directory: front-end  # Path to your React project
+
+#       # Step 4: Remove dev dependencies for Frontend
+#       - name: Remove Dev Dependencies for Frontend
+#         run: npm prune --production
+#         working-directory: front-end
+
+#       # Step 5: Zip the Frontend Build
+#       - name: Zip Frontend Build
+#         run: |
+#           cd front-end/build
+#           zip -r ../../quantum-server-infranstucture-dashboard-front-end.zip .
+#           cd ../..
+
+#       # Step 6: Unzip Frontend Build into a temp directory
+#       - name: Unzip Frontend Build
+#         run: |
+#           mkdir -p temp_frontend
+#           unzip -j quantum-server-infranstucture-dashboard-front-end.zip -d temp_frontend
+
+#       # Step 7: Set up Node.js for Backend
+#       - name: Set up Node.js for Backend
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: '20.x'  # Set Node.js version to 20
+
+#       # Step 8: Install Backend Dependencies
+#       - name: Install Backend Dependencies
+#         run: npm ci
+#         working-directory: back-end  # Path to your backend project
+
+#       # Step 9: Build Backend (if applicable)
+#       - name: Build Backend
+#         run: npm run build  # Adjust this if your backend doesn't have a build script
+#         working-directory: back-end
+
+#       # Step 10: Remove Dev Dependencies for Backend
+#       - name: Remove Dev Dependencies for Backend
+#         run: npm prune --production
+#         working-directory: back-end
+
+#       # Step 11: Zip the Backend Code
+#       - name: Zip Backend Code
+#         run: |
+#           zip -r quantum-server-infranstucture-dashboard-back-end.zip .  # Zips everything in the back-end folder
+#         working-directory: back-end
+
+#       # Step 12: Configure AWS CLI credentials using GitHub Secrets
+#       - name: Configure AWS Credentials
+#         uses: aws-actions/configure-aws-credentials@v2
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: us-east-1  # Adjust region accordingly
+
+#       # Step 13: Create S3 Bucket (if it doesn't exist)
+#       - name: Create S3 Bucket
+#         run: |
+#           aws s3api create-bucket --bucket ${{ secrets.S3_BUCKET_NAME }} --region us-east-1 --create-bucket-configuration LocationConstraint=us-east-1 || echo "Bucket already exists"
+#         env:
+#           S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+
+#       # Step 14: Upload Unzipped Frontend files to S3
+#       - name: Upload Unzipped Frontend to S3
+#         run: |
+#           aws s3 cp temp_frontend/ s3://${{ secrets.S3_BUCKET_NAME }}/ --recursive
+
+#       # Step 15: Upload Backend ZIP to S3
+#       - name: Upload Backend ZIP to S3
+#         run: |
+#           aws s3 cp back-end/quantum-server-infranstucture-dashboard-back-end.zip s3://${{ secrets.S3_BUCKET_NAME }}/quantum-server-infranstucture-dashboard-backend.zip
