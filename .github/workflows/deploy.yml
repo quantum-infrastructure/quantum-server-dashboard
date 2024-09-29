@@ -92,7 +92,6 @@
 
 
 
-
 name: Deploy Frontend and Backend as ZIP
 
 on:
@@ -122,20 +121,23 @@ jobs:
           npm run build
         working-directory: front-end  # Path to your React project
 
-      # Step 4: Check if build directory exists
-      - name: Check Build Directory
-        run: |
-          ls -la front-end/build  # List contents of the build directory
-
-      # Step 5: Remove dev dependencies for Frontend
+      # Step 4: Remove dev dependencies for Frontend
       - name: Remove Dev Dependencies for Frontend
         run: npm prune --production
         working-directory: front-end
 
-      # **Step 6: Zip the Frontend Build Contents** (Updated)
-      - name: Zip Frontend Build Contents
+      # Step 5: Zip the Frontend Build
+      - name: Zip Frontend Build
         run: |
-          cd front-end/build && zip -r ../../quantum-server-infranstucture-dashboard-front-end.zip . && cd ../..
+          cd front-end/build
+          zip -r ../../quantum-server-infranstucture-dashboard-front-end.zip .
+          cd ../..
+
+      # Step 6: Unzip Frontend Build into a temp directory
+      - name: Unzip Frontend Build
+        run: |
+          mkdir -p temp_frontend
+          unzip -j quantum-server-infranstucture-dashboard-front-end.zip -d temp_frontend
 
       # Step 7: Set up Node.js for Backend
       - name: Set up Node.js for Backend
@@ -179,10 +181,10 @@ jobs:
         env:
           S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
 
-      # Step 14: Upload Frontend ZIP to S3
-      - name: Upload Frontend ZIP to S3
+      # Step 14: Upload Unzipped Frontend files to S3
+      - name: Upload Unzipped Frontend to S3
         run: |
-          aws s3 cp quantum-server-infranstucture-dashboard-front-end.zip s3://${{ secrets.S3_BUCKET_NAME }}/quantum-server-infranstucture-dashboard-frontend.zip
+          aws s3 cp temp_frontend/ s3://${{ secrets.S3_BUCKET_NAME }}/ --recursive
 
       # Step 15: Upload Backend ZIP to S3
       - name: Upload Backend ZIP to S3
