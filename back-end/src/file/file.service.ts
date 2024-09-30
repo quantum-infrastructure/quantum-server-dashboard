@@ -19,14 +19,16 @@ export class FileService {
 	) {
 		const  awsAccessKey = this.configService.fileService.awsAccessKey || "";
 		const  awsSecretKey = this.configService.fileService.awsSecretKey || "";
+		const  awsBucket = this.configService.fileService.awsBucket || "";
+		const  awsRegion = this.configService.fileService.awsRegion || "";
 	
 			this.storageProvider = getPublicStorageProvider().getStorageProvider({
 			provider: "S3",
 			providerOptions: {
 				accessKeyId: awsAccessKey,
 				secretAccessKey: awsSecretKey,
-				region: "us-east-1",
-				bucket: "electrify-ge-files",
+				region: awsRegion,
+				bucket: awsBucket,
 			},
 
 

@@ -25,6 +25,10 @@ export class ConfigService {
 		awsSecretKey: process.env.CREDENTIALS_AWS_SECRET_KEY,
 		url: process.env.FILE_SERVER_URL,
 		secretKey: process.env.FILE_SERVER_KEY,
+		awsBucket:process.env.CREDENTIALS_AWS_BUCKET,
+		awsRegion : process.env.CREDENTIALS_AWS_REGION
+
+
 	};
 }
 

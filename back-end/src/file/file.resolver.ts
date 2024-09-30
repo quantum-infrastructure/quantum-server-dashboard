@@ -19,7 +19,6 @@ export class FileResolver {
 		filePromise: FileUpload,
 	) {
 
-	
 		const file = await filePromise;
 		console.log("HALOOO", await file)
 		const uploadedFile = await this.fileService.uploadFileStream(file);
