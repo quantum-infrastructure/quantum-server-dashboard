@@ -11,11 +11,8 @@ const GraphContext = createContext<GraphContextType | undefined>(undefined);
 
 // Provider component
 export const ApiLookUpContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [url, setUrl] = useState('');
+  const [graphUrl, setGraphUrl] = useState('');
  
-  const graphUrl = url.replace(/^\//, '')
-
-  console.log(graphUrl,"graphUrl")
 
   useEffect(() => {
     fetch('/apiurl.txt')
@@ -26,11 +23,11 @@ export const ApiLookUpContextProvider: React.FC<{ children: React.ReactNode }> =
         return response.text();
       })
       .then((text) => {
-        setUrl(text);
+        setGraphUrl(text);
       })
       .catch((err) => {
         const fallbackUrl = process.env.REACT_APP_GRAPH_URL || '';
-        setUrl(fallbackUrl);
+        setGraphUrl(fallbackUrl);
      
       });
   }, []);
