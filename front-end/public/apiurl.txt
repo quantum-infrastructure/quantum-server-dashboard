@@ -1,1 +1,1 @@
-https://${Token[TOKEN.149]}.execute-api.${Token[AWS.Region.11]}.${Token[AWS.URLSuffix.8]}/${Token[TOKEN.157]}/graphql
+http://localhost:4000/graphql

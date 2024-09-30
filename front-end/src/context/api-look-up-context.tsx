@@ -15,6 +15,8 @@ export const ApiLookUpContextProvider: React.FC<{ children: React.ReactNode }> =
  
   const graphUrl = url.replace(/^\//, '')
 
+  console.log(graphUrl,"graphUrl")
+
   useEffect(() => {
     fetch('/apiurl.txt')
       .then((response) => {
