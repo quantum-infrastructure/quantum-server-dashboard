@@ -126,7 +126,6 @@ export class FileService {
             Key: fileKey,
             Body: file.createReadStream(), // Stream the file
             ContentType: file.mimetype, // Set the content type
-			ACL:ObjectCannedACL.public_read,
         };
 
         // Create an instance of Upload
