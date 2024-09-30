@@ -35,7 +35,7 @@ jobs:
       # Step 5: Zip the Frontend Build
       - name: Zip Frontend Build
         run: |
-          zip -r quantum-server-infranstucture-dashboard-front-end.zip build/
+          cd build && zip -r ../quantum-server-infranstucture-dashboard-front-end.zip .
         working-directory: front-end
 
       # Step 6: Set up Node.js for Backend
