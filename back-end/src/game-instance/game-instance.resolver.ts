@@ -72,7 +72,7 @@ export class GameInstanceResolver {
 
 
 
-    const create = this.gameInstanceService.createGameInstance({id})
+    const create = this.gameInstanceService.createGameInstance(id)
     
     return {
         success: true,

@@ -5,12 +5,12 @@ import { Field, InputType, ObjectType } from "type-graphql";
 @ObjectType("GameInstance")
 export class GameInstanceType {
   @Field(() => String)
-  id?: string;
+  id: string;
 
   @Field(() => String) 
-  state?: any;
+  state: any;
 
   @Field(() => Number)
-  timestamp?: number;
+  timestamp: number;
 }
 
