@@ -47,17 +47,23 @@ export default function DashboardMenu({}: DashboardMenuProps): JSX.Element {
           link="/dashboard"
           tranlsationKey="test1"
         /> */}
-        <UserDashboardMenuItem
+        {/* <UserDashboardMenuItem
           // iconClassName={classes.pinIcon}
           // selectedIconClassName={classes.selectedPinIcon}
           link="/dashboard/instance"
           tranlsationKey="instance"
-        />
+        /> */}
         <UserDashboardMenuItem
           // iconClassName={classes.pinIcon}
           // selectedIconClassName={classes.selectedPinIcon}
           link="/dashboard/file-upload"
-          tranlsationKey="file"
+          tranlsationKey="File"
+        />
+        <UserDashboardMenuItem
+          // iconClassName={classes.pinIcon}
+          // selectedIconClassName={classes.selectedPinIcon}
+          link="/dashboard/game-instance"
+          tranlsationKey="Game Instance"
         />
       </nav>
     </aside>

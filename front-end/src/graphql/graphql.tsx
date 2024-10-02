@@ -36,40 +36,29 @@ export type FileTypeResponse = {
   success: Scalars['Boolean']['output'];
 };
 
-export type Instance = {
-  __typename?: 'Instance';
-  groups?: Maybe<Array<Scalars['String']['output']>>;
-  instanceId: Scalars['String']['output'];
-  keyPair?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  vpc?: Maybe<Scalars['String']['output']>;
-};
-
-export type InstanceArrayResponse = {
-  __typename?: 'InstanceArrayResponse';
-  data?: Maybe<Array<Instance>>;
-  success: Scalars['Boolean']['output'];
-  totalCount?: Maybe<Scalars['Float']['output']>;
+export type GameInstance = {
+  __typename?: 'GameInstance';
+  id: Scalars['String']['output'];
+  state: Scalars['String']['output'];
+  timestamp: Scalars['Float']['output'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createEc2: BooleanResponse;
-  deleteInstance: BooleanResponse;
+  createGameInstance: BooleanResponse;
+  deleteGameInstance: Scalars['Boolean']['output'];
   login: SessionTypeResponse;
   uploadFile: FileTypeResponse;
 };
 
 
-export type MutationCreateEc2Args = {
-  count: Scalars['Int']['input'];
+export type MutationCreateGameInstanceArgs = {
+  id: Scalars['String']['input'];
 };
 
 
-export type MutationDeleteInstanceArgs = {
-  instanceIds: Array<Scalars['String']['input']>;
-  keyPairName: Scalars['String']['input'];
-  vpcId: Scalars['String']['input'];
+export type MutationDeleteGameInstanceArgs = {
+  gameInstanceId: Scalars['String']['input'];
 };
 
 
@@ -85,9 +74,14 @@ export type MutationUploadFileArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  getAllIntstances: InstanceArrayResponse;
+  getAllGameInstances: Array<GameInstance>;
+  getGameInstance?: Maybe<GameInstance>;
   getSession: SessionTypeResponse;
-  hello: Scalars['String']['output'];
+};
+
+
+export type QueryGetGameInstanceArgs = {
+  gameInstanceId: Scalars['String']['input'];
 };
 
 
@@ -114,21 +108,19 @@ export type User = {
   id: Scalars['String']['output'];
 };
 
-export type CreateEc2MutationVariables = Exact<{
-  count: Scalars['Int']['input'];
+export type CreateGameInstanceMutationVariables = Exact<{
+  id: Scalars['String']['input'];
 }>;
 
 
-export type CreateEc2Mutation = { __typename?: 'Mutation', createEc2: { __typename?: 'BooleanResponse', success: boolean } };
+export type CreateGameInstanceMutation = { __typename?: 'Mutation', createGameInstance: { __typename?: 'BooleanResponse', success: boolean } };
 
-export type DeleteInstanceMutationVariables = Exact<{
-  vpcId: Scalars['String']['input'];
-  keyPairName: Scalars['String']['input'];
-  instanceIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
+export type DeleteGameInstanceMutationVariables = Exact<{
+  gameInstanceId: Scalars['String']['input'];
 }>;
 
 
-export type DeleteInstanceMutation = { __typename?: 'Mutation', deleteInstance: { __typename?: 'BooleanResponse', success: boolean } };
+export type DeleteGameInstanceMutation = { __typename?: 'Mutation', deleteGameInstance: boolean };
 
 export type UploadFileMutationVariables = Exact<{
   file: Scalars['Upload']['input'];
@@ -137,10 +129,17 @@ export type UploadFileMutationVariables = Exact<{
 
 export type UploadFileMutation = { __typename?: 'Mutation', uploadFile: { __typename?: 'FileTypeResponse', success: boolean, data?: { __typename?: 'FileType', key: string, path: string } | null } };
 
-export type GetAllInstancesQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetAllGameInstancesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllInstancesQuery = { __typename?: 'Query', getAllIntstances: { __typename?: 'InstanceArrayResponse', success: boolean, totalCount?: number | null, data?: Array<{ __typename?: 'Instance', instanceId: string, name?: string | null, keyPair?: string | null, vpc?: string | null, groups?: Array<string> | null }> | null } };
+export type GetAllGameInstancesQuery = { __typename?: 'Query', getAllGameInstances: Array<{ __typename?: 'GameInstance', id: string, state: string, timestamp: number }> };
+
+export type GetGameInstanceQueryVariables = Exact<{
+  gameInstanceId: Scalars['String']['input'];
+}>;
+
+
+export type GetGameInstanceQuery = { __typename?: 'Query', getGameInstance?: { __typename?: 'GameInstance', id: string, state: string, timestamp: number } | null };
 
 export type GetSessionQueryVariables = Exact<{
   sessionToken: Scalars['String']['input'];
@@ -158,78 +157,70 @@ export type LoginMutationVariables = Exact<{
 export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'SessionTypeResponse', success: boolean, data?: { __typename?: 'Session', sessionToken?: string | null, user?: { __typename?: 'User', email: string } | null } | null } };
 
 
-export const CreateEc2Document = gql`
-    mutation createEC2($count: Int!) {
-  createEc2(count: $count) {
+export const CreateGameInstanceDocument = gql`
+    mutation CreateGameInstance($id: String!) {
+  createGameInstance(id: $id) {
     success
   }
 }
     `;
-export type CreateEc2MutationFn = Apollo.MutationFunction<CreateEc2Mutation, CreateEc2MutationVariables>;
+export type CreateGameInstanceMutationFn = Apollo.MutationFunction<CreateGameInstanceMutation, CreateGameInstanceMutationVariables>;
 
 /**
- * __useCreateEc2Mutation__
+ * __useCreateGameInstanceMutation__
  *
- * To run a mutation, you first call `useCreateEc2Mutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateEc2Mutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateGameInstanceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateGameInstanceMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createEc2Mutation, { data, loading, error }] = useCreateEc2Mutation({
+ * const [createGameInstanceMutation, { data, loading, error }] = useCreateGameInstanceMutation({
  *   variables: {
- *      count: // value for 'count'
+ *      id: // value for 'id'
  *   },
  * });
  */
-export function useCreateEc2Mutation(baseOptions?: Apollo.MutationHookOptions<CreateEc2Mutation, CreateEc2MutationVariables>) {
+export function useCreateGameInstanceMutation(baseOptions?: Apollo.MutationHookOptions<CreateGameInstanceMutation, CreateGameInstanceMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateEc2Mutation, CreateEc2MutationVariables>(CreateEc2Document, options);
+        return Apollo.useMutation<CreateGameInstanceMutation, CreateGameInstanceMutationVariables>(CreateGameInstanceDocument, options);
       }
-export type CreateEc2MutationHookResult = ReturnType<typeof useCreateEc2Mutation>;
-export type CreateEc2MutationResult = Apollo.MutationResult<CreateEc2Mutation>;
-export type CreateEc2MutationOptions = Apollo.BaseMutationOptions<CreateEc2Mutation, CreateEc2MutationVariables>;
-export const DeleteInstanceDocument = gql`
-    mutation deleteInstance($vpcId: String!, $keyPairName: String!, $instanceIds: [String!]!) {
-  deleteInstance(
-    vpcId: $vpcId
-    keyPairName: $keyPairName
-    instanceIds: $instanceIds
-  ) {
-    success
-  }
+export type CreateGameInstanceMutationHookResult = ReturnType<typeof useCreateGameInstanceMutation>;
+export type CreateGameInstanceMutationResult = Apollo.MutationResult<CreateGameInstanceMutation>;
+export type CreateGameInstanceMutationOptions = Apollo.BaseMutationOptions<CreateGameInstanceMutation, CreateGameInstanceMutationVariables>;
+export const DeleteGameInstanceDocument = gql`
+    mutation DeleteGameInstance($gameInstanceId: String!) {
+  deleteGameInstance(gameInstanceId: $gameInstanceId)
 }
     `;
-export type DeleteInstanceMutationFn = Apollo.MutationFunction<DeleteInstanceMutation, DeleteInstanceMutationVariables>;
+export type DeleteGameInstanceMutationFn = Apollo.MutationFunction<DeleteGameInstanceMutation, DeleteGameInstanceMutationVariables>;
 
 /**
- * __useDeleteInstanceMutation__
+ * __useDeleteGameInstanceMutation__
  *
- * To run a mutation, you first call `useDeleteInstanceMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteInstanceMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteGameInstanceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteGameInstanceMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteInstanceMutation, { data, loading, error }] = useDeleteInstanceMutation({
+ * const [deleteGameInstanceMutation, { data, loading, error }] = useDeleteGameInstanceMutation({
  *   variables: {
- *      vpcId: // value for 'vpcId'
- *      keyPairName: // value for 'keyPairName'
- *      instanceIds: // value for 'instanceIds'
+ *      gameInstanceId: // value for 'gameInstanceId'
  *   },
  * });
  */
-export function useDeleteInstanceMutation(baseOptions?: Apollo.MutationHookOptions<DeleteInstanceMutation, DeleteInstanceMutationVariables>) {
+export function useDeleteGameInstanceMutation(baseOptions?: Apollo.MutationHookOptions<DeleteGameInstanceMutation, DeleteGameInstanceMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteInstanceMutation, DeleteInstanceMutationVariables>(DeleteInstanceDocument, options);
+        return Apollo.useMutation<DeleteGameInstanceMutation, DeleteGameInstanceMutationVariables>(DeleteGameInstanceDocument, options);
       }
-export type DeleteInstanceMutationHookResult = ReturnType<typeof useDeleteInstanceMutation>;
-export type DeleteInstanceMutationResult = Apollo.MutationResult<DeleteInstanceMutation>;
-export type DeleteInstanceMutationOptions = Apollo.BaseMutationOptions<DeleteInstanceMutation, DeleteInstanceMutationVariables>;
+export type DeleteGameInstanceMutationHookResult = ReturnType<typeof useDeleteGameInstanceMutation>;
+export type DeleteGameInstanceMutationResult = Apollo.MutationResult<DeleteGameInstanceMutation>;
+export type DeleteGameInstanceMutationOptions = Apollo.BaseMutationOptions<DeleteGameInstanceMutation, DeleteGameInstanceMutationVariables>;
 export const UploadFileDocument = gql`
     mutation uploadFile($file: Upload!) {
   uploadFile(file: $file) {
@@ -267,53 +258,89 @@ export function useUploadFileMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UploadFileMutationHookResult = ReturnType<typeof useUploadFileMutation>;
 export type UploadFileMutationResult = Apollo.MutationResult<UploadFileMutation>;
 export type UploadFileMutationOptions = Apollo.BaseMutationOptions<UploadFileMutation, UploadFileMutationVariables>;
-export const GetAllInstancesDocument = gql`
-    query getAllInstances {
-  getAllIntstances {
-    success
-    data {
-      instanceId
-      name
-      keyPair
-      vpc
-      groups
-    }
-    totalCount
+export const GetAllGameInstancesDocument = gql`
+    query GetAllGameInstances {
+  getAllGameInstances {
+    id
+    state
+    timestamp
   }
 }
     `;
 
 /**
- * __useGetAllInstancesQuery__
+ * __useGetAllGameInstancesQuery__
  *
- * To run a query within a React component, call `useGetAllInstancesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAllInstancesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetAllGameInstancesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllGameInstancesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetAllInstancesQuery({
+ * const { data, loading, error } = useGetAllGameInstancesQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetAllInstancesQuery(baseOptions?: Apollo.QueryHookOptions<GetAllInstancesQuery, GetAllInstancesQueryVariables>) {
+export function useGetAllGameInstancesQuery(baseOptions?: Apollo.QueryHookOptions<GetAllGameInstancesQuery, GetAllGameInstancesQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAllInstancesQuery, GetAllInstancesQueryVariables>(GetAllInstancesDocument, options);
+        return Apollo.useQuery<GetAllGameInstancesQuery, GetAllGameInstancesQueryVariables>(GetAllGameInstancesDocument, options);
       }
-export function useGetAllInstancesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllInstancesQuery, GetAllInstancesQueryVariables>) {
+export function useGetAllGameInstancesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllGameInstancesQuery, GetAllGameInstancesQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAllInstancesQuery, GetAllInstancesQueryVariables>(GetAllInstancesDocument, options);
+          return Apollo.useLazyQuery<GetAllGameInstancesQuery, GetAllGameInstancesQueryVariables>(GetAllGameInstancesDocument, options);
         }
-export function useGetAllInstancesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllInstancesQuery, GetAllInstancesQueryVariables>) {
+export function useGetAllGameInstancesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllGameInstancesQuery, GetAllGameInstancesQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetAllInstancesQuery, GetAllInstancesQueryVariables>(GetAllInstancesDocument, options);
+          return Apollo.useSuspenseQuery<GetAllGameInstancesQuery, GetAllGameInstancesQueryVariables>(GetAllGameInstancesDocument, options);
         }
-export type GetAllInstancesQueryHookResult = ReturnType<typeof useGetAllInstancesQuery>;
-export type GetAllInstancesLazyQueryHookResult = ReturnType<typeof useGetAllInstancesLazyQuery>;
-export type GetAllInstancesSuspenseQueryHookResult = ReturnType<typeof useGetAllInstancesSuspenseQuery>;
-export type GetAllInstancesQueryResult = Apollo.QueryResult<GetAllInstancesQuery, GetAllInstancesQueryVariables>;
+export type GetAllGameInstancesQueryHookResult = ReturnType<typeof useGetAllGameInstancesQuery>;
+export type GetAllGameInstancesLazyQueryHookResult = ReturnType<typeof useGetAllGameInstancesLazyQuery>;
+export type GetAllGameInstancesSuspenseQueryHookResult = ReturnType<typeof useGetAllGameInstancesSuspenseQuery>;
+export type GetAllGameInstancesQueryResult = Apollo.QueryResult<GetAllGameInstancesQuery, GetAllGameInstancesQueryVariables>;
+export const GetGameInstanceDocument = gql`
+    query GetGameInstance($gameInstanceId: String!) {
+  getGameInstance(gameInstanceId: $gameInstanceId) {
+    id
+    state
+    timestamp
+  }
+}
+    `;
+
+/**
+ * __useGetGameInstanceQuery__
+ *
+ * To run a query within a React component, call `useGetGameInstanceQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGameInstanceQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGameInstanceQuery({
+ *   variables: {
+ *      gameInstanceId: // value for 'gameInstanceId'
+ *   },
+ * });
+ */
+export function useGetGameInstanceQuery(baseOptions: Apollo.QueryHookOptions<GetGameInstanceQuery, GetGameInstanceQueryVariables> & ({ variables: GetGameInstanceQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetGameInstanceQuery, GetGameInstanceQueryVariables>(GetGameInstanceDocument, options);
+      }
+export function useGetGameInstanceLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetGameInstanceQuery, GetGameInstanceQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetGameInstanceQuery, GetGameInstanceQueryVariables>(GetGameInstanceDocument, options);
+        }
+export function useGetGameInstanceSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetGameInstanceQuery, GetGameInstanceQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetGameInstanceQuery, GetGameInstanceQueryVariables>(GetGameInstanceDocument, options);
+        }
+export type GetGameInstanceQueryHookResult = ReturnType<typeof useGetGameInstanceQuery>;
+export type GetGameInstanceLazyQueryHookResult = ReturnType<typeof useGetGameInstanceLazyQuery>;
+export type GetGameInstanceSuspenseQueryHookResult = ReturnType<typeof useGetGameInstanceSuspenseQuery>;
+export type GetGameInstanceQueryResult = Apollo.QueryResult<GetGameInstanceQuery, GetGameInstanceQueryVariables>;
 export const GetSessionDocument = gql`
     query GetSession($sessionToken: String!) {
   getSession(sessionToken: $sessionToken) {

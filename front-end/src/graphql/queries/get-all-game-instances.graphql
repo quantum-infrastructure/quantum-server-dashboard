@@ -1,0 +1,7 @@
+query GetAllGameInstances {
+  getAllGameInstances {
+    id
+    state
+    timestamp
+  }
+}

@@ -1,0 +1,5 @@
+mutation CreateGameInstance($id: String!) {
+  createGameInstance(id: $id) {
+    success
+  }
+}

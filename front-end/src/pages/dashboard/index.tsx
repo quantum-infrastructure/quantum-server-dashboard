@@ -7,7 +7,7 @@ export default function Test(){
     return (
         <div>
             
-            HIII
+            This is dashboard page
         </div>
     );
 }

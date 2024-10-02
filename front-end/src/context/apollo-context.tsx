@@ -59,8 +59,8 @@ function ApolloContextProvider({
 
   const apolloClient = useMemo(() => {
     const uploadLink = createUploadLink({
-      uri: graphUrl,
-      // uri: process.env.REACT_APP_GRAPH_URL,
+      // uri: graphUrl,
+      uri: process.env.REACT_APP_GRAPH_URL,
       headers: {
         Authorization: `Bearer ${authToken}`,
       },

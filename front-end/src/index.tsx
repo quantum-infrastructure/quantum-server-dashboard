@@ -19,6 +19,8 @@ import Dashboard from './pages/dashboard';
 import PopupContextProvider from './components/popup/popup';
 import FileUpload from './pages/dashboard/file-upload';
 import {ApiLookUpContextProvider } from './context/api-look-up-context';
+import GameInstance from './pages/dashboard/game-instance';
+import CreateGameInstance from './pages/dashboard/game-instance/create-game-instance';
 
 
 
@@ -39,6 +41,8 @@ root.render(
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard/file-upload" element={<FileUpload />} />
+        <Route path="/dashboard/game-instance" element={<GameInstance />} />
+        <Route path="/dashboard/game-instance/create-game-instance" element={<CreateGameInstance />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="*" element={<App />} />
       </Routes>

@@ -5,6 +5,8 @@ import { FileResolver } from '../file/file.resolver';
 import { SessionResolver } from '../session/session.resolver';
 import { UserResolver } from '../user/user.resolver';
 import { SessionInstance } from '../session/session.middleware';
+import { GameInstanceResolver } from '../game-instance/game-instance.resolver';
+import { RedisService } from '../redis/redis.service';
 
 export interface ApolloRequestContext extends BaseContext {
   session: SessionInstance; 
@@ -12,8 +14,9 @@ export interface ApolloRequestContext extends BaseContext {
 }
 
 export const getApolloServer = async () => {
+  await Container.get(RedisService).init();
   const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
-    resolvers: [FileResolver, UserResolver, SessionResolver],
+    resolvers: [FileResolver, UserResolver, SessionResolver,GameInstanceResolver],
     container: Container,
   });
 

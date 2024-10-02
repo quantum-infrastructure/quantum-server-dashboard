@@ -23,6 +23,8 @@ export class FileResolver {
 		console.log("HALOOO", await file)
 		const uploadedFile = await this.fileService.uploadFileStream(file);
 
+
+
 		// return uploadedFile;
 		// console.log(uploadedFile.key , "UPLOADED FILE")
 		return {

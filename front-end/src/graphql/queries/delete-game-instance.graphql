@@ -1,0 +1,3 @@
+mutation DeleteGameInstance($gameInstanceId: String!) {
+  deleteGameInstance(gameInstanceId: $gameInstanceId)
+}
