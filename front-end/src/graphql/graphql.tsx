@@ -40,7 +40,7 @@ export type GameInstance = {
   __typename?: 'GameInstance';
   id: Scalars['String']['output'];
   state: Scalars['String']['output'];
-  timestamp: Scalars['Float']['output'];
+  updated: Scalars['Float']['output'];
 };
 
 export type Mutation = {
@@ -132,14 +132,14 @@ export type UploadFileMutation = { __typename?: 'Mutation', uploadFile: { __type
 export type GetAllGameInstancesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllGameInstancesQuery = { __typename?: 'Query', getAllGameInstances: Array<{ __typename?: 'GameInstance', id: string, state: string, timestamp: number }> };
+export type GetAllGameInstancesQuery = { __typename?: 'Query', getAllGameInstances: Array<{ __typename?: 'GameInstance', id: string, state: string, updated: number }> };
 
 export type GetGameInstanceQueryVariables = Exact<{
   gameInstanceId: Scalars['String']['input'];
 }>;
 
 
-export type GetGameInstanceQuery = { __typename?: 'Query', getGameInstance?: { __typename?: 'GameInstance', id: string, state: string, timestamp: number } | null };
+export type GetGameInstanceQuery = { __typename?: 'Query', getGameInstance?: { __typename?: 'GameInstance', id: string, state: string, updated: number } | null };
 
 export type GetSessionQueryVariables = Exact<{
   sessionToken: Scalars['String']['input'];
@@ -263,7 +263,7 @@ export const GetAllGameInstancesDocument = gql`
   getAllGameInstances {
     id
     state
-    timestamp
+    updated
   }
 }
     `;
@@ -304,7 +304,7 @@ export const GetGameInstanceDocument = gql`
   getGameInstance(gameInstanceId: $gameInstanceId) {
     id
     state
-    timestamp
+    updated
   }
 }
     `;

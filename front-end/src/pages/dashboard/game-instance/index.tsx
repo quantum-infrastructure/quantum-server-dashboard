@@ -65,7 +65,7 @@ import { useDeleteGameInstanceMutation, useGetAllGameInstancesQuery } from "../.
                     {instance.state}
                   </td>
                   <td className="px-4 py-2 border-b border-gray-200  text-blue-600">
-                    {instance.timestamp}
+                    {instance.updated}
                   </td>
                   {/* <td className="px-4 py-2 border-b border-gray-200 text-blue-600">
                     {instance.instanceId}

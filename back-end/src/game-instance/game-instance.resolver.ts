@@ -30,13 +30,11 @@
 //     return gameInstance;
 //   }
 
-
 //   @Query(() => [GameInstanceType]) // Returns an array of GameInstanceType
 //   async getAllGameInstances(): Promise<GameInstanceType[]> {
 //     const gameInstances = await this.gameInstanceService.getAllGameInstances();
 //     return gameInstances;
 //   }
-
 
 //   @Mutation(() => Boolean)
 //   async deleteGameInstance(
@@ -46,59 +44,49 @@
 //     return deleted; // Return true if deleted, false if not found
 //   }
 
-  
 // }
 
-
-
-
-import { Resolver, Query, Mutation, Arg } from "type-graphql"; // Import necessary decorators and types
-import { Service } from "typedi"; // Import Service from typedi
-import { GameInstanceService } from "./game-instance.service"; // Import your GameInstanceService
-import { GameInstanceType } from "./game-instance.types"; // Import your GameInstanceType
+import { Resolver, Query, Mutation, Arg } from "type-graphql";
+import { Service } from "typedi";
+import { GameInstanceService } from "./game-instance.service";
+import { GameInstanceType } from "./game-instance.types";
 import { MutationReturnType } from "../basic-respones/basic-response";
 
-@Resolver(() => GameInstanceType) // Specify the class type to use as the resolver
-@Service() // Register this class as a service
+@Resolver(() => GameInstanceType)
+@Service()
 export class GameInstanceResolver {
   constructor(private readonly gameInstanceService: GameInstanceService) {}
 
-  @MutationReturnType(() => Boolean) // Define a mutation that returns a string (the game instance ID)
+  @MutationReturnType(() => Boolean)
   async createGameInstance(
-    @Arg("id") id: string // Argument type for the mutation
-    // @Arg("gameInstanceData") gameInstanceData: GameInstanceType // Argument type for the mutation
+    @Arg("id") id: string
+    // @Arg("gameInstanceData") gameInstanceData: GameInstanceType
   ) {
+    const create = this.gameInstanceService.createGameInstance({ id });
 
-
-
-
-    const create = this.gameInstanceService.createGameInstance({id})
-    
     return {
-        success: true,
-        data : create
-    }
-
+      success: true,
+      data: create,
+    };
   }
 
-  @Query(() => GameInstanceType, { nullable: true }) // Define a query that returns a GameInstanceType or null
+  @Query(() => GameInstanceType, { nullable: true })
   async getGameInstance(
-    @Arg("gameInstanceId") gameInstanceId: string // Argument type for the query
+    @Arg("gameInstanceId") gameInstanceId: string
   ): Promise<GameInstanceType | null> {
-    return this.gameInstanceService.getGameInstance(gameInstanceId); // Call the service method
+    return this.gameInstanceService.getGameInstance(gameInstanceId);
   }
 
-  @Query(() => [GameInstanceType]) // Define a query that returns an array of GameInstanceType
+  @Query(() => [GameInstanceType])
   async getAllGameInstances(): Promise<GameInstanceType[]> {
-
-    console.log("BUBA")
-    return this.gameInstanceService.getAllGameInstances(); // Call the service method
+    // console.log("BUBA");
+    return this.gameInstanceService.getAllGameInstances();
   }
 
-  @Mutation(() => Boolean) // Define a mutation that returns a boolean (success status)
+  @Mutation(() => Boolean) //
   async deleteGameInstance(
-    @Arg("gameInstanceId") gameInstanceId: string // Argument type for the mutation
+    @Arg("gameInstanceId") gameInstanceId: string
   ): Promise<boolean> {
-    return this.gameInstanceService.deleteGameInstance(gameInstanceId); // Call the service method
+    return this.gameInstanceService.deleteGameInstance(gameInstanceId);
   }
 }

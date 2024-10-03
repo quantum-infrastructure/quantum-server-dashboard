@@ -2,6 +2,6 @@ query GetGameInstance($gameInstanceId: String!) {
   getGameInstance(gameInstanceId: $gameInstanceId) {
     id
     state
-    timestamp
+    updated
   }
 }

@@ -11,6 +11,6 @@ export class GameInstanceType {
   state?: any;
 
   @Field(() => Number)
-  timestamp?: number;
+  updated?: number;
 }
 
