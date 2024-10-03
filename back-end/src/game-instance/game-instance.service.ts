@@ -136,7 +136,7 @@ export class GameInstanceService {
 
   async getAllGameInstances(): Promise<GameInstanceType[]> {
 
-    //await this.redisService.redisClient.flushDb();
+    // await this.redisService.redisClient.flushDb();
 
     // Retrieve all game instances
     //const keys = await this.redisService.redisClient.keys("game_instance:*");
@@ -189,7 +189,7 @@ export class GameInstanceService {
   }
 
   async deleteGameInstance(gameInstanceId: string): Promise<boolean> {
-    const key = `game_instance:${gameInstanceId}`; 
+    const key = `${gameInstanceId}:game_instance`; 
     const result = await this.redisService.redisClient.del(key); 
 
     return result === 1;

@@ -21,7 +21,7 @@ export class RedisService {
     await this.redisClient.connect();
 
     // Handle connection errors
-    this.redisClient.on('error', (err) => console.error('Redis Client Error', err));
+    this.redisClient.on('error', (err: any) => console.error('Redis Client Error', err));
   };
   
 }
