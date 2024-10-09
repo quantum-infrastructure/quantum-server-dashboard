@@ -26,7 +26,8 @@ export class ConfigService {
 		url: process.env.FILE_SERVER_URL,
 		secretKey: process.env.FILE_SERVER_KEY,
 		awsBucket:process.env.CREDENTIALS_AWS_BUCKET,
-		awsRegion : process.env.CREDENTIALS_AWS_REGION
+		awsRegion : process.env.AWS_REGION
+		
 	};
 	redis = {
 		redisHost : process.env.REDIS_HOST,

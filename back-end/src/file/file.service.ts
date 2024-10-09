@@ -85,7 +85,7 @@ export class FileService {
 		if (isLocal) {
             const awsAccessKey = this.configService.fileService.awsAccessKey || "";
             const awsSecretKey = this.configService.fileService.awsSecretKey || "";
-            const awsRegion = this.configService.fileService.awsRegion || "us-east-1"; // Default region if not provided
+            const awsRegion = this.configService.fileService.awsRegion || "eu-central-1"; // Default region if not provided
 
             this.s3Client = new S3Client({
                 region: awsRegion,
@@ -96,7 +96,7 @@ export class FileService {
             });
         } else {
             // Use default credentials from environment variables for production
-            this.s3Client = new S3Client({ region: "us-east-1"  }); // Replace with your production region
+            this.s3Client = new S3Client({ region: this.configService.fileService.awsRegion  }); // Replace with your production region
         }
     }
     
@@ -113,7 +113,7 @@ export class FileService {
             Key: fileKey,
             Body: file.createReadStream(), 
             ContentType: file.mimetype, 
-            
+
             
         };
 
