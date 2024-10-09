@@ -96,7 +96,7 @@ export class FileService {
             });
         } else {
             // Use default credentials from environment variables for production
-            this.s3Client = new S3Client({ region: this.configService.fileService.awsRegion  }); // Replace with your production region
+            this.s3Client = new S3Client({ region: this.configService.fileService.awsRegion || ""  }); // Replace with your production region
         }
     }
     
