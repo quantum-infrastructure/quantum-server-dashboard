@@ -79,19 +79,7 @@ export class FileService {
 
 		const isLocal = process.env.NODE_ENV === 'local';
 
-        // // Retrieve the AWS credentials and configuration from the config service
-        // const awsAccessKey = this.configService.fileService.awsAccessKey || "";
-        // const awsSecretKey = this.configService.fileService.awsSecretKey || "";
-        // const awsRegion = this.configService.fileService.awsRegion || "";
-
-        // // Initialize S3 Client
-        // this.s3Client = new S3Client({
-        //     region: awsRegion,
-        //     credentials: {
-        //         accessKeyId: awsAccessKey,
-        //         secretAccessKey: awsSecretKey,
-        //     },
-        // });
+       
 
 
 		if (isLocal) {
@@ -108,13 +96,14 @@ export class FileService {
             });
         } else {
             // Use default credentials from environment variables for production
-            this.s3Client = new S3Client({ region: "us-east-1" }); // Replace with your production region
+            this.s3Client = new S3Client({ region: "us-east-1"  }); // Replace with your production region
         }
     }
     
 
 
     async uploadFileStream(file: FileUpload): Promise<any> {
+        // const awsBucket = "simple-app-stack-1-dashboardsimpleappstack1gamebui-c2cwi5xtphke";
         const awsBucket = this.configService.fileService.awsBucket || "";
 
         // Create a unique file key using UUID

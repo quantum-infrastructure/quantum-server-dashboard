@@ -31,8 +31,8 @@ export class FileResolver {
 			// key :uploadedFile.key,
 			// path : uploadedFile.path
 			success : true,
-			data : uploadedFile
-
+			key : uploadedFile.key,
+			path : uploadedFile.path
 		}
 	}
 }

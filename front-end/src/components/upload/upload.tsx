@@ -88,7 +88,7 @@ function UploadForm() {
 
           
 
-            {fileName && (
+            {uploadFileResult.data?.uploadFile.success && (
               <p className="mt-2 text-sm text-green-500">
                 File uploaded: {fileName}
               </p>
