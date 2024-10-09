@@ -1,7 +1,9 @@
 import 'reflect-metadata';
 import { getApp } from './app';
-import awsServerlessExpress from 'aws-serverless-express';
+// import awsServerlessExpress from 'aws-serverless-express';
 import { APIGatewayProxyEvent, Context, APIGatewayProxyResult } from 'aws-lambda';
+import serverlessExpress from '@codegenie/serverless-express';
+
 
 // Flag to check if the environment is Lambda or local
 const isLambda = !!process.env.AWS_LAMBDA_FUNCTION_NAME;
@@ -16,12 +18,10 @@ export const handler = async (
   
   if (!server) {
     const app = await getApp(); // Get the Express app
-    server = awsServerlessExpress.createServer(app); // Create the Lambda server
+    server = serverlessExpress({app}); // Create the Lambda server
   }
 
-  return awsServerlessExpress.proxy(server, event, context, 'PROMISE').promise;
-  // return awsServerlessExpress.proxy(awsServerlessExpress.createServer(await getApp()), event, context, 'PROMISE').promise;
-
+  return server(event, context)
 };
 
 // Run the server locally if not in Lambda environment

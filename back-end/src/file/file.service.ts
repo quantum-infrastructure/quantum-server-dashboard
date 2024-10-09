@@ -103,30 +103,29 @@ export class FileService {
 
 
     async uploadFileStream(file: FileUpload): Promise<any> {
-        // const awsBucket = "simple-app-stack-1-dashboardsimpleappstack1gamebui-c2cwi5xtphke";
-        const awsBucket = this.configService.fileService.awsBucket || "";
+        const awsBucket = "simple-app-stack-1-dashboardsimpleappstack1gamebui-c2cwi5xtphke";
+        // const awsBucket = this.configService.fileService.awsBucket || "";
 
-        // Create a unique file key using UUID
         const fileKey = `uploads/${uuidv4()}/${file.filename}`;
 
-        // Set up the upload options
         const uploadParams = {
             Bucket: awsBucket,
             Key: fileKey,
-            Body: file.createReadStream(), // Stream the file
-            ContentType: file.mimetype, // Set the content type
+            Body: file.createReadStream(), 
+            ContentType: file.mimetype, 
+            
+            
         };
 
-        // Create an instance of Upload
         const upload = new Upload({
             client: this.s3Client,
             params: uploadParams,
-            leavePartsOnError: false, // Optionally leave parts if there's an error
+            leavePartsOnError: false, 
+            
         });
 
         try {
-            // Start the upload process
-            const data = await upload.done(); // Wait for the upload to complete
+            const data = await upload.done(); 
             console.log("Successfully uploaded file to S3:", data);
 
             return {

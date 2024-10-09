@@ -22,17 +22,18 @@ export class FileResolver {
 		const file = await filePromise;
 		console.log("HALOOO", await file)
 		const uploadedFile = await this.fileService.uploadFileStream(file);
+		console.log(uploadedFile,"uploadedFile")
+		console.log(file,"file")
 
 
 
-		// return uploadedFile;
-		// console.log(uploadedFile.key , "UPLOADED FILE")
 		return {
 			// key :uploadedFile.key,
 			// path : uploadedFile.path
 			success : true,
 			key : uploadedFile.key,
 			path : uploadedFile.path
+			
 		}
 	}
 }
