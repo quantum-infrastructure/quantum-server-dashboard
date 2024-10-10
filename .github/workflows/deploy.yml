@@ -35,7 +35,7 @@ jobs:
       # Step 5: Zip the Frontend Build
       - name: Zip Frontend Build
         run: |
-          cd build && zip -r ../quantum-server-infranstucture-dashboard-front-end.zip .
+          cd build && zip -r ../quantum-server-infrastructure-dashboard-front-end.zip .
         working-directory: front-end
 
       # Step 6: Set up Node.js for Backend
@@ -62,7 +62,7 @@ jobs:
       # Step 10: Zip the Backend Code
       - name: Zip Backend Code
         run: |
-          zip -r quantum-server-infranstucture-dashboard-back-end.zip .  # Zips everything in the back-end folder
+          zip -r quantum-server-infrastructure-dashboard-back-end.zip .  # Zips everything in the back-end folder
         working-directory: back-end
 
       # Step 11: Configure AWS CLI credentials using GitHub Secrets
@@ -83,12 +83,12 @@ jobs:
       # Step 13: Upload Frontend ZIP to S3
       - name: Upload Frontend ZIP to S3
         run: |
-          aws s3 cp front-end/quantum-server-infranstucture-dashboard-front-end.zip s3://${{ secrets.S3_BUCKET_NAME }}/quantum-server-infranstucture-dashboard-frontend.zip
+          aws s3 cp front-end/quantum-server-infrastructure-dashboard-front-end.zip s3://${{ secrets.S3_BUCKET_NAME }}/quantum-server-infrastructure-dashboard-frontend.zip
 
       # Step 14: Upload Backend ZIP to S3
       - name: Upload Backend ZIP to S3
         run: |
-          aws s3 cp back-end/quantum-server-infranstucture-dashboard-back-end.zip s3://${{ secrets.S3_BUCKET_NAME }}/quantum-server-infranstucture-dashboard-backend.zip
+          aws s3 cp back-end/quantum-server-infrastructure-dashboard-back-end.zip s3://${{ secrets.S3_BUCKET_NAME }}/quantum-server-infrastructure-dashboard-backend.zip
 
 
 

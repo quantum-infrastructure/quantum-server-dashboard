@@ -47,7 +47,7 @@ function UploadForm() {
           console.error("No data returned from server.");
         }
       } catch (error) {
-        console.error("Error uploading file:", error);
+        console.error("Error uploading file: ", error);
       }
     }
   };
