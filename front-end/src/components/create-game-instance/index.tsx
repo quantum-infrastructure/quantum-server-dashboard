@@ -19,7 +19,7 @@ export default function CreateGameInstanceComponent() {
     return <div>Please wait...</div>;
   }
 
-  console.log(amount);
+  // console.log(amount);
 
   return (
     <form

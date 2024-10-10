@@ -13,17 +13,12 @@ export class FileResolver {
 
 	@MutationReturnType(() => FileType)
 	async uploadFile(
-		// @Arg("file")
 		@Arg("file", () => GraphQLUpload)
-		// @Args({ name: 'file', type: () => GraphQLUpload })
 		filePromise: FileUpload,
 	) {
 
 		const file = await filePromise;
-		console.log("HALOOO", await file)
 		const uploadedFile = await this.fileService.uploadFileStream(file);
-		console.log(uploadedFile,"uploadedFile")
-		console.log(file,"file")
 
 
 

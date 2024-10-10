@@ -76,7 +76,6 @@ export const useSessionCheck = ({
 
   // on session loading
   useEffect(() => {
-    console.log(" on session loading", getSession.loading);
     if (getSession.loading) {
       setState({
         ...state,

@@ -24,7 +24,6 @@ function UploadForm() {
     const file = event.target.files?.[0];
 
 
-    console.log(file);
 
     if (file) {
       setFileName(file.name);
@@ -53,8 +52,7 @@ function UploadForm() {
     }
   };
 
-  console.log(uploadFileResult.data, "WAZZAA");
-  console.log(uploadedFileData, "HEEE");
+ 
 
   return (
     <div>

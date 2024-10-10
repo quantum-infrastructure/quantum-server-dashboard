@@ -68,9 +68,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   });
 
   useEffect(() => {
-    console.log("after Login");
     if (loginResult.data?.login.data?.sessionToken) {
-      console.log(loginResult.data?.login.data?.sessionToken, "AFTER LOGINT");
       const token = loginResult.data?.login.data?.sessionToken || undefined;
       setAuthToken(token);
     }

@@ -79,7 +79,6 @@ export class GameInstanceResolver {
 
   @Query(() => [GameInstanceType])
   async getAllGameInstances(): Promise<GameInstanceType[]> {
-    // console.log("BUBA");
     return this.gameInstanceService.getAllGameInstances();
   }
 

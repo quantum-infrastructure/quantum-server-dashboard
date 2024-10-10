@@ -22,7 +22,6 @@ function Login() {
 
   const { graphUrl } = ApiLookUpContext();
 
-  console.log(graphUrl,"HIIII")
 
 
   const [email, setEmail] = useState<string>("");
@@ -30,12 +29,10 @@ function Login() {
   const navigate = useNavigate();
 
   if(loginResult.data?.login.success){
-    console.log("HIIIIIIBIIIII")
     navigate('/dashboard', { replace: true });
 
   }
 
-  console.log(user,"USERCHIKA")
 
   if(user){
     navigate('/dashboard', { replace: true });

@@ -11,7 +11,6 @@ import { useDeleteGameInstanceMutation, useGetAllGameInstancesQuery } from "../.
   
     const a = data?.getAllGameInstances;
   
-    console.log(a, "AAAAAAA");
   
     // const [deleteEC2Mutation, deleteEC2MutationResult] =
     //   useDeleteInstanceMutation();
@@ -87,7 +86,6 @@ import { useDeleteGameInstanceMutation, useGetAllGameInstancesQuery } from "../.
                       data-twe-ripple-init
                       data-twe-ripple-color="light"
                       onClick={async () => {
-                        console.log("DELETING!!!");
   
                         yesNo({
                           text: "Are you sure you want to delete this EC2 instance?",

@@ -25,9 +25,7 @@ export class SessionResolver {
     const respone = await this.sessionService.generateToken(email, password);
     
     const ddd2 = Date.now()
-    console.log(ddd - ddd2, ddd, ddd2)
 
-    console.log(respone,"RESP")
     return {
       success: !!respone,
       data: respone,

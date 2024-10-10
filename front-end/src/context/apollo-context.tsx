@@ -55,7 +55,6 @@ function ApolloContextProvider({
   const { graphUrl } = ApiLookUpContext();
 
 
-  console.log(graphUrl,"UUUUURLLLLL")
 
   const apolloClient = useMemo(() => {
     const uploadLink = createUploadLink({
