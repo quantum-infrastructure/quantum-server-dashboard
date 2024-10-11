@@ -83,12 +83,12 @@ jobs:
       # Step 13: Upload Frontend ZIP to S3
       - name: Upload Frontend ZIP to S3
         run: |
-          aws s3 cp front-end/quantum-server-infrastructure-dashboard-front-end.zip s3://${{ secrets.S3_BUCKET_NAME }}/quantum-server-infrastructure-dashboard-frontend.zip
+          aws s3 cp front-end/quantum-server-infrastructure-dashboard-front-end.zip s3://${{ secrets.S3_BUCKET_NAME }}/quantum-server-infrastructure-dashboard-frontend.zip --acl public-read
 
       # Step 14: Upload Backend ZIP to S3
       - name: Upload Backend ZIP to S3
         run: |
-          aws s3 cp back-end/quantum-server-infrastructure-dashboard-back-end.zip s3://${{ secrets.S3_BUCKET_NAME }}/quantum-server-infrastructure-dashboard-backend.zip
+          aws s3 cp back-end/quantum-server-infrastructure-dashboard-back-end.zip s3://${{ secrets.S3_BUCKET_NAME }}/quantum-server-infrastructure-dashboard-backend.zip --acl public-read
 
 
 
