@@ -30,12 +30,6 @@ export type FileType = {
   path: Scalars['String']['output'];
 };
 
-export type FileTypeResponse = {
-  __typename?: 'FileTypeResponse';
-  data?: Maybe<FileType>;
-  success: Scalars['Boolean']['output'];
-};
-
 export type GameInstance = {
   __typename?: 'GameInstance';
   id: Scalars['String']['output'];
@@ -47,8 +41,8 @@ export type Mutation = {
   __typename?: 'Mutation';
   createGameInstance: BooleanResponse;
   deleteGameInstance: Scalars['Boolean']['output'];
+  generatePresignedUrl: FileType;
   login: SessionTypeResponse;
-  uploadFile: FileTypeResponse;
 };
 
 
@@ -62,14 +56,14 @@ export type MutationDeleteGameInstanceArgs = {
 };
 
 
-export type MutationLoginArgs = {
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
+export type MutationGeneratePresignedUrlArgs = {
+  file: Scalars['Upload']['input'];
 };
 
 
-export type MutationUploadFileArgs = {
-  file: Scalars['Upload']['input'];
+export type MutationLoginArgs = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -122,12 +116,12 @@ export type DeleteGameInstanceMutationVariables = Exact<{
 
 export type DeleteGameInstanceMutation = { __typename?: 'Mutation', deleteGameInstance: boolean };
 
-export type UploadFileMutationVariables = Exact<{
+export type GeneratePresignedUrlMutationVariables = Exact<{
   file: Scalars['Upload']['input'];
 }>;
 
 
-export type UploadFileMutation = { __typename?: 'Mutation', uploadFile: { __typename?: 'FileTypeResponse', success: boolean, data?: { __typename?: 'FileType', key: string, path: string } | null } };
+export type GeneratePresignedUrlMutation = { __typename?: 'Mutation', generatePresignedUrl: { __typename?: 'FileType', key: string, path: string } };
 
 export type GetAllGameInstancesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -221,43 +215,40 @@ export function useDeleteGameInstanceMutation(baseOptions?: Apollo.MutationHookO
 export type DeleteGameInstanceMutationHookResult = ReturnType<typeof useDeleteGameInstanceMutation>;
 export type DeleteGameInstanceMutationResult = Apollo.MutationResult<DeleteGameInstanceMutation>;
 export type DeleteGameInstanceMutationOptions = Apollo.BaseMutationOptions<DeleteGameInstanceMutation, DeleteGameInstanceMutationVariables>;
-export const UploadFileDocument = gql`
-    mutation uploadFile($file: Upload!) {
-  uploadFile(file: $file) {
-    success
-    data {
-      key
-      path
-    }
+export const GeneratePresignedUrlDocument = gql`
+    mutation generatePresignedUrl($file: Upload!) {
+  generatePresignedUrl(file: $file) {
+    key
+    path
   }
 }
     `;
-export type UploadFileMutationFn = Apollo.MutationFunction<UploadFileMutation, UploadFileMutationVariables>;
+export type GeneratePresignedUrlMutationFn = Apollo.MutationFunction<GeneratePresignedUrlMutation, GeneratePresignedUrlMutationVariables>;
 
 /**
- * __useUploadFileMutation__
+ * __useGeneratePresignedUrlMutation__
  *
- * To run a mutation, you first call `useUploadFileMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUploadFileMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useGeneratePresignedUrlMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useGeneratePresignedUrlMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [uploadFileMutation, { data, loading, error }] = useUploadFileMutation({
+ * const [generatePresignedUrlMutation, { data, loading, error }] = useGeneratePresignedUrlMutation({
  *   variables: {
  *      file: // value for 'file'
  *   },
  * });
  */
-export function useUploadFileMutation(baseOptions?: Apollo.MutationHookOptions<UploadFileMutation, UploadFileMutationVariables>) {
+export function useGeneratePresignedUrlMutation(baseOptions?: Apollo.MutationHookOptions<GeneratePresignedUrlMutation, GeneratePresignedUrlMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UploadFileMutation, UploadFileMutationVariables>(UploadFileDocument, options);
+        return Apollo.useMutation<GeneratePresignedUrlMutation, GeneratePresignedUrlMutationVariables>(GeneratePresignedUrlDocument, options);
       }
-export type UploadFileMutationHookResult = ReturnType<typeof useUploadFileMutation>;
-export type UploadFileMutationResult = Apollo.MutationResult<UploadFileMutation>;
-export type UploadFileMutationOptions = Apollo.BaseMutationOptions<UploadFileMutation, UploadFileMutationVariables>;
+export type GeneratePresignedUrlMutationHookResult = ReturnType<typeof useGeneratePresignedUrlMutation>;
+export type GeneratePresignedUrlMutationResult = Apollo.MutationResult<GeneratePresignedUrlMutation>;
+export type GeneratePresignedUrlMutationOptions = Apollo.BaseMutationOptions<GeneratePresignedUrlMutation, GeneratePresignedUrlMutationVariables>;
 export const GetAllGameInstancesDocument = gql`
     query GetAllGameInstances {
   getAllGameInstances {

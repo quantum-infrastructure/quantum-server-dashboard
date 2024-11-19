@@ -21,7 +21,7 @@ export default function DashboardMenu({}: DashboardMenuProps): JSX.Element {
   return (
     <div className="flex min-h-screen bg-gray-100 font-sans w-max" >
     {/* Sidebar / Menu */}
-    <aside className="w-64 bg-gray-800 text-white">
+    <aside style={{backgroundColor:"#15549A"}} className="w-64 text-white">
       <div className="p-4">
         <h1 className="text-2xl font-bold">Dashboard</h1>
       </div>

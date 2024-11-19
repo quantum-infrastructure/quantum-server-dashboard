@@ -33,7 +33,7 @@ export class SessionResolver {
   }
 
   @QueryReturnType(() => SessionType)
-  async getSession(@Arg('sessionToken') sessionToken: string,) {
+  async getSession(@Arg('sessionToken') sessionToken: string) {
     // const session = ctx.session.toSessionTye();
     const respone = await this.sessionService.verifySession(sessionToken);
     return {

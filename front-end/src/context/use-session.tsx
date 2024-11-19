@@ -95,3 +95,18 @@ export const useSessionCheck = ({
 
   return { ...state, logout };
 };
+
+
+
+
+
+// mutation uploadFile($file: Upload!) {
+// 	uploadFile(file: $file) {
+// 		success
+		
+// 		data {
+// 			key
+// 			path
+// 		}
+// 	}
+// }

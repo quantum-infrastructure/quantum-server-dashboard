@@ -20,7 +20,7 @@ export default function UserDashboardMenuItem({
 	const  path  = location.pathname;
 
 	return (
-		<div style={{ backgroundColor: path == link ? "#1A8772" : "" , borderRadius : "0.25rem" }}>
+		<div style={{ backgroundColor: path == link ? "#9E36B2" : "" , borderRadius : "0.25rem" }}>
 			<a className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white" href={link}>
 				<div
 					

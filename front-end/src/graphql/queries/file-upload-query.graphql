@@ -1,10 +1,7 @@
-mutation uploadFile($file: Upload!) {
-	uploadFile(file: $file) {
-		success
-		
-		data {
-			key
-			path
-		}
-	}
+
+mutation generatePresignedUrl($file: Upload!) {
+  generatePresignedUrl(file: $file) {
+  key
+	path
+  }
 }
