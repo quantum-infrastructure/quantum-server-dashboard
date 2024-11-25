@@ -2,7 +2,7 @@ import { AuthContext } from "../../context/authentication-context";
 import React, { useContext } from "react";
 
 export default function Header() {
-  const { logout } = useContext(AuthContext);
+  const { logout ,user } = useContext(AuthContext);
 
   return (
     <div
@@ -22,7 +22,8 @@ export default function Header() {
       <a href="/">
         <img style={{width:"175px", height :"45px" }} src="/Quantum logo.png" />
       </a>
-      <button onClick={logout}>Logout</button>
+      {user ? <></> : <button onClick={logout}>Logout</button>}
+      
     </div>
   );
 }
