@@ -4,12 +4,20 @@
   import { useLazyQuery, useQuery } from "@apollo/client";
 import { useDeleteGameInstanceMutation, useGetAllGameInstancesQuery } from "../../../graphql/graphql";
   
+
+
+
+
   export default function GameInstance() {
     const { yesNo } = useContext(PopupContext);
   
     const { data, loading, error, refetch } = useGetAllGameInstancesQuery();
   
-    const a = data?.getAllGameInstances;
+    const a = data?.getAllGameInstances?.data;
+
+    console.log(a,"AAAAAA")
+
+
   
   
     // const [deleteEC2Mutation, deleteEC2MutationResult] =
@@ -28,7 +36,7 @@ import { useDeleteGameInstanceMutation, useGetAllGameInstancesQuery } from "../.
       return <div>Processing...</div>;
     }
   
-    if (error) return <p>Error: {error.message}</p>;
+    // if (error) return <p>Error: {error.message}</p>;
   
     return (
       <div>

@@ -1,7 +1,11 @@
+
 query GetAllGameInstances {
   getAllGameInstances {
-    id
-    state
-    updated
+    success
+    data {
+      id
+      state
+      updated
+    }
   }
 }

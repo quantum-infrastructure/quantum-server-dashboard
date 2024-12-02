@@ -37,6 +37,12 @@ export type GameInstance = {
   updated: Scalars['Float']['output'];
 };
 
+export type GameInstanceResponse = {
+  __typename?: 'GameInstanceResponse';
+  data: Array<GameInstance>;
+  success: Scalars['Boolean']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createGameInstance: BooleanResponse;
@@ -68,7 +74,7 @@ export type MutationLoginArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  getAllGameInstances: Array<GameInstance>;
+  getAllGameInstances: GameInstanceResponse;
   getGameInstance?: Maybe<GameInstance>;
   getSession: SessionTypeResponse;
 };
@@ -126,7 +132,7 @@ export type GeneratePresignedUrlMutation = { __typename?: 'Mutation', generatePr
 export type GetAllGameInstancesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllGameInstancesQuery = { __typename?: 'Query', getAllGameInstances: Array<{ __typename?: 'GameInstance', id: string, state: string, updated: number }> };
+export type GetAllGameInstancesQuery = { __typename?: 'Query', getAllGameInstances: { __typename?: 'GameInstanceResponse', success: boolean, data: Array<{ __typename?: 'GameInstance', id: string, state: string, updated: number }> } };
 
 export type GetGameInstanceQueryVariables = Exact<{
   gameInstanceId: Scalars['String']['input'];
@@ -252,9 +258,12 @@ export type GeneratePresignedUrlMutationOptions = Apollo.BaseMutationOptions<Gen
 export const GetAllGameInstancesDocument = gql`
     query GetAllGameInstances {
   getAllGameInstances {
-    id
-    state
-    updated
+    success
+    data {
+      id
+      state
+      updated
+    }
   }
 }
     `;

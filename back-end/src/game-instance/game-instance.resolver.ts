@@ -46,11 +46,26 @@
 
 // }
 
-import { Resolver, Query, Mutation, Arg } from "type-graphql";
+import { Resolver, Query, Mutation, Arg, ObjectType, Field } from "type-graphql";
 import { Service } from "typedi";
 import { GameInstanceService } from "./game-instance.service";
 import { GameInstanceType } from "./game-instance.types";
-import { MutationReturnType } from "../basic-respones/basic-response";
+import { MutationReturnType,QueryReturnType } from "../basic-respones/basic-response";
+
+
+
+
+
+@ObjectType()
+class GameInstanceResponse {
+  @Field(() => Boolean)
+  success: boolean;
+
+  @Field(() => [GameInstanceType])
+  data: GameInstanceType[];
+}
+
+
 
 @Resolver(() => GameInstanceType)
 @Service()
@@ -77,9 +92,47 @@ export class GameInstanceResolver {
     return this.gameInstanceService.getGameInstance(gameInstanceId);
   }
 
-  @Query(() => [GameInstanceType])
-  async getAllGameInstances(): Promise<GameInstanceType[]> {
-    return this.gameInstanceService.getAllGameInstances();
+  // @QueryReturnType(() => Boolean)
+  // // @Query(() => [GameInstanceType])
+  // async getAllGameInstances() {
+  //   const a = this.gameInstanceService.getAllGameInstances();
+
+  //   return {
+  //     success : true,
+  //     data : a
+  //   }
+  // }
+
+
+  @Query(() => GameInstanceResponse)
+  async getAllGameInstances(): Promise<GameInstanceResponse> {
+    const rawInstances = await this.gameInstanceService.getAllGameInstances();
+
+  // Convert raw objects to plain objects
+  // const instances = rawInstances.map((instance) => {
+  //   return {
+  //     ...instance,
+  //     id: instance.id || 'default-id', // Set a default id if missing
+  //     state : instance.state || "{empty}",
+  //     updated : instance.updated  || 1,
+
+  //   };
+  // });
+  const instances1 = rawInstances.map((instance) => {
+    return {
+      ...instance,
+    };
+  });
+
+
+  const instances = rawInstances.filter(instance => instance.id && instance.state);
+
+    console.log(instances)
+
+    return {
+      success: true,
+      data: instances,
+    };
   }
 
   @Mutation(() => Boolean) //

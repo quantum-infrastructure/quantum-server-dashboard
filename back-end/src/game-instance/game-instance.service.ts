@@ -11,7 +11,7 @@ export class GameInstanceService {
   ) {}
 
   async createGameInstance(gameInstanceData: GameInstanceType){
-    const gameInstanceId = gameInstanceData.id!; 
+    const gameInstanceId = gameInstanceData.id; 
 
     const timestamp = Date.now(); 
     const gameInstance: GameInstanceType = {
@@ -60,6 +60,8 @@ export class GameInstanceService {
     const keys = await this.redisService.redisClient.zRange("updated_game_instances", 0, 20);
 
 
+    
+
     if(!keys.length){
 
       return [];
@@ -71,6 +73,7 @@ export class GameInstanceService {
 
     // Loop through the keys and get their hashes
     for (const key of keys) {
+      
         const hash = await this.redisService.redisClient.hGetAll(key);
         results.push(hash); // Store the hash with the key
     }
@@ -100,10 +103,14 @@ export class GameInstanceService {
   }
 
   async deleteGameInstance(gameInstanceId: string): Promise<boolean> {
-    const key = `${gameInstanceId}:game_instance`; 
-    const result = await this.redisService.redisClient.del(key); 
+    const key = `${gameInstanceId}:game_instance`;
+    const result = await this.redisService.redisClient.del(key);
+    const cleanGameInstanceId = gameInstanceId.trim();
+console.log(cleanGameInstanceId,"VAAAA")
+    // const zRangeResult = await this.redisService.redisClient.zRem('updated_game_instances',cleanGameInstanceId);
+    const zRangeResult = await this.redisService.redisClient.zRem('updated_game_instances', `${cleanGameInstanceId}:game_instance`);
 
-    return result === 1;
+    return result === 1 || zRangeResult > 0;
   }
 
 
