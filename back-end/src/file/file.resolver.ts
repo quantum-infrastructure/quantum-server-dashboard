@@ -126,29 +126,34 @@ import { FileType } from "./file.type";  // Your FileType with `path` and `key` 
 export class FileResolver {
   constructor(private fileService: FileService) {}
 
-  @Mutation(() => FileType)
-  async generatePresignedUrl(
-    @Arg("file", () => GraphQLUpload) file: FileUpload
-  ): Promise<FileType> {
-    try {
-      // Generate the pre-signed URL using the FileService
-      const presignedUrl = await this.fileService.generatePresignedUrl(file);
 
-      // Assuming the FileService returns an object with key and path
-      const { key, path } = presignedUrl; // Destructure the response from the service
 
-      return {
-		
-        key,    // Return the S3 key of the uploaded file
-        path,   // Return the URL or path where the file can be accessed
-      };
-    } catch (error) {
-      console.error("Error generating pre-signed URL:", error);
-      
-      return {
-        key: "",  // Returning empty string in case of an error
-        path: "", // Returning empty string in case of an error
-      };
-    }
+  @Mutation(() => String)
+  async generatePresignedUrl(): Promise<string> {
+    return this.fileService.generatePresignedUrl();
   }
+
+  // @Mutation(() => FileType)
+  // async generatePresignedUrl(){
+  //   try {
+  //     // Generate the pre-signed URL using the FileService
+  //     const presignedUrl = await this.fileService.generatePresignedUrl(file);
+
+  //     // Assuming the FileService returns an object with key and path
+  //     const { key, path } = presignedUrl; // Destructure the response from the service
+
+  //     return {
+		
+  //       key,    // Return the S3 key of the uploaded file
+  //       path,   // Return the URL or path where the file can be accessed
+  //     };
+  //   } catch (error) {
+  //     console.error("Error generating pre-signed URL:", error);
+      
+  //     return {
+  //       key: "",  // Returning empty string in case of an error
+  //       path: "", // Returning empty string in case of an error
+  //     };
+  //   }
+  // }
 }

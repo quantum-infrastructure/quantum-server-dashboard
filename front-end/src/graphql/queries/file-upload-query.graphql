@@ -1,7 +1,0 @@
-
-mutation generatePresignedUrl($file: Upload!) {
-  generatePresignedUrl(file: $file) {
-  key
-	path
-  }
-}

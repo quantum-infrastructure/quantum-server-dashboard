@@ -210,33 +210,21 @@ export class FileService {
         }
     }
 
-    async generatePresignedUrl(file: FileUpload): Promise<{ key: string; path: string }> {
+    async generatePresignedUrl() {
         // const awsBucket = "nikusha-bucket";  // Ensure you have the correct bucket name
         const awsBucket = this.configService.fileService.awsBucket || ""
 
-        const fileKey = `${file.filename}`;
         const command = new PutObjectCommand({
             Bucket: awsBucket,
-            Key: fileKey,
-            // Expires: new Date(Date.now() + 60 * 60 * 1000) , // for 5 minute change second 60 to 5 , now its 1 hour
+            Key : `${uuidv4()}.zip`,
             ContentType: 'application/zip',  // Or dynamically set: file.mimetype
         });
 
-        try {
-            const signedUrl = await getSignedUrl(this.s3Client, command, { expiresIn: 3600 });
+        const signedUrl = await getSignedUrl(this.s3Client, command, { expiresIn: 3600 });
 
-            console.log("Generated Signed URL: ", signedUrl);
+        return signedUrl
 
-            return {
-                key: fileKey,
-                path: signedUrl,
-            };
-        } catch (error) {
-            console.error("Error generating presigned URL:", error);
-            throw error;
-        }
-    }
-}
+}}
 
 
 // @Service()
