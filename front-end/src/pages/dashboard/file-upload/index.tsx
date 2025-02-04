@@ -1,7 +1,10 @@
 import UploadForm from "../../../components/upload/upload";
 import React from "react";
 
-export default function FileUpload (){
+import withAuth from "../../../context/with-auth";
+
+
+function FileUpload (){
 
 
 
@@ -14,6 +17,8 @@ export default function FileUpload (){
 
 }
     
+
+export default withAuth(FileUpload)
 
 
     

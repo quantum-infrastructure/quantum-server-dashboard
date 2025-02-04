@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import './App.css';
+
+
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
         >
           Login
         </a>
+
+       
       </header>
     </div>
   );

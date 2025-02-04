@@ -3,12 +3,11 @@
   import { PopupContext } from "../../../components/popup/popup";
   import { useLazyQuery, useQuery } from "@apollo/client";
 import { useDeleteGameInstanceMutation, useGetAllGameInstancesQuery } from "../../../graphql/graphql";
-  
+import withAuth from "../../../context/with-auth";
+import { Link } from "react-router-dom";
 
 
-
-
-  export default function GameInstance() {
+function GameInstance() {
     const { yesNo } = useContext(PopupContext);
   
     const { data, loading, error, refetch } = useGetAllGameInstancesQuery();
@@ -40,11 +39,11 @@ import { useDeleteGameInstanceMutation, useGetAllGameInstancesQuery } from "../.
   
     return (
       <div>
-        <a href="/dashboard/game-instance/create-game-instance">
+        <Link to="/dashboard/game-instance/create-game-instance">
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Create game instance
           </button>
-        </a>
+        </Link>
   
         <div className="overflow-x-auto pt-1.25 ">
           <table className="min-w-full bg-white border border-gray-200">
@@ -96,7 +95,7 @@ import { useDeleteGameInstanceMutation, useGetAllGameInstancesQuery } from "../.
                       onClick={async () => {
   
                         yesNo({
-                          text: "Are you sure you want to delete this EC2 instance?",
+                          text: "Are you sure you want to delete this game instance?",
                           title: "DELETE",
                           yes: async () => {
                             await deleteInstance({
@@ -119,4 +118,4 @@ import { useDeleteGameInstanceMutation, useGetAllGameInstancesQuery } from "../.
       </div>
     );
   }
-  
+  export default withAuth(GameInstance)

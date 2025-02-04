@@ -217,7 +217,7 @@ export class FileService {
         const command = new PutObjectCommand({
             Bucket: awsBucket,
             Key : `${uuidv4()}.zip`,
-            ContentType: 'application/zip',  // Or dynamically set: file.mimetype
+            ContentType: 'application/zip',
         });
 
         const signedUrl = await getSignedUrl(this.s3Client, command, { expiresIn: 3600 });

@@ -2,6 +2,7 @@ import UserDashboardMenuItem from "./dashboard-menu-item";
 
 import { useContext } from "react";
 import { AuthContext } from "../../../context/authentication-context";
+import { ArrowUpTrayIcon, CpuChipIcon,PlayIcon } from "@heroicons/react/24/outline";
 
 
 interface DashboardMenuProps {}
@@ -21,10 +22,8 @@ export default function DashboardMenu({}: DashboardMenuProps): JSX.Element {
   return (
     <div className="flex min-h-screen bg-gray-100 font-sans w-max" >
     {/* Sidebar / Menu */}
-    <aside style={{backgroundColor:"#15549A"}} className="w-64 text-white">
-      <div className="p-4">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-      </div>
+    <aside  className="w-64 text-white bg-gray-800">
+     
       <nav className="mt-10">
         {/* <a href="#" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
           Home
@@ -57,13 +56,16 @@ export default function DashboardMenu({}: DashboardMenuProps): JSX.Element {
           // iconClassName={classes.pinIcon}
           // selectedIconClassName={classes.selectedPinIcon}
           link="/dashboard/file-upload"
-          tranlsationKey="File"
-        />
+          tranlsationKey="File Upload"
+          icon={<ArrowUpTrayIcon className="w-5 h-5 text-white" />}
+          />
         <UserDashboardMenuItem
           // iconClassName={classes.pinIcon}
           // selectedIconClassName={classes.selectedPinIcon}
           link="/dashboard/game-instance"
           tranlsationKey="Game Instance"
+          icon={<CpuChipIcon className="w-5 h-5 text-white" />}
+
         />
       </nav>
     </aside>

@@ -119,10 +119,10 @@ import { FileService } from "./file.service";
 import { FileUpload, GraphQLUpload } from "graphql-upload-ts";
 import { Arg, Resolver, Mutation } from "type-graphql";
 import { Service } from "typedi";
-import { FileType } from "./file.type";  // Your FileType with `path` and `key` fields
+import { FileType } from "./file.type";  
 
 @Service()
-@Resolver(() => FileType)  // The resolver is still linked to the FileType
+@Resolver(() => FileType)  
 export class FileResolver {
   constructor(private fileService: FileService) {}
 

@@ -1,55 +1,93 @@
+// // {
+// //   "compilerOptions": {
+// //     "target": "es5",
+// //     "lib": [
+// //       "dom",
+// //       "dom.iterable",
+// //       "esnext"
+// //     ],
+// //     "allowJs": true,
+// //     "skipLibCheck": true,
+// //     "esModuleInterop": true,
+// //     "allowSyntheticDefaultImports": true,
+// //     "strict": true,
+// //     "forceConsistentCasingInFileNames": true,
+// //     "noFallthroughCasesInSwitch": true,
+// //     "module": "esnext",
+// //     "moduleResolution": "node",
+// //     "resolveJsonModule": true,
+// //     "isolatedModules": true,
+// //     "noEmit": true,
+// //     "jsx": "react-jsx"
+// //   },
+// //   "paths": {
+// //     "@/*": [
+// //       "./src/*"
+// //     ]
+// //   },
+// //   "include": ["src/pages/**/*"],
+// //   "exclude": ["node_modules"]
+// // }
+
+
 // {
-//   "compilerOptions": {
-//     "target": "es5",
-//     "lib": [
-//       "dom",
-//       "dom.iterable",
-//       "esnext"
-//     ],
-//     "allowJs": true,
-//     "skipLibCheck": true,
-//     "esModuleInterop": true,
-//     "allowSyntheticDefaultImports": true,
-//     "strict": true,
-//     "forceConsistentCasingInFileNames": true,
-//     "noFallthroughCasesInSwitch": true,
-//     "module": "esnext",
-//     "moduleResolution": "node",
-//     "resolveJsonModule": true,
-//     "isolatedModules": true,
-//     "noEmit": true,
-//     "jsx": "react-jsx"
-//   },
-//   "paths": {
-//     "@/*": [
-//       "./src/*"
-//     ]
-//   },
-//   "include": ["src/pages/**/*"],
-//   "exclude": ["node_modules"]
+// 	"compilerOptions": {
+// 		"target": "es5",
+// 		"lib": ["dom", "dom.iterable", "esnext"],
+// 		"allowJs": true,
+// 		"skipLibCheck": true,
+// 		"strict": true,
+// 		"forceConsistentCasingInFileNames": true,
+// 		"noEmit": true,
+// 		"esModuleInterop": true,
+// 		"module": "esnext",
+// 		"moduleResolution": "node",
+// 		"resolveJsonModule": true,
+// 		"isolatedModules": true,
+// 		"jsx": "preserve",
+// 		"incremental": true,
+// 		"paths": {
+// 			"@/*": ["./src/*"],
+// 			"micro_app/*": ["http://localhost:8080/*"]
+// 		}
+// 	},
+// 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/index.tsx"],
+// 	"exclude": ["node_modules"]
 // }
+
+
+
+
 
 
 {
 	"compilerOptions": {
-		"target": "es5",
-		"lib": ["dom", "dom.iterable", "esnext"],
-		"allowJs": true,
-		"skipLibCheck": true,
-		"strict": true,
-		"forceConsistentCasingInFileNames": true,
-		"noEmit": true,
-		"esModuleInterop": true,
-		"module": "esnext",
-		"moduleResolution": "node",
-		"resolveJsonModule": true,
-		"isolatedModules": true,
-		"jsx": "preserve",
-		"incremental": true,
-		"paths": {
-			"@/*": ["./src/*"]
-		}
+	  "target": "es5",
+	  "lib": ["dom", "dom.iterable", "esnext"],
+	  "allowJs": true,
+	  "skipLibCheck": true,
+	  "strict": true,
+	  "forceConsistentCasingInFileNames": true,
+	  "noEmit": true,
+	  "esModuleInterop": true,
+	  "module": "esnext",
+	  "moduleResolution": "node",
+	  "resolveJsonModule": true,
+	  "isolatedModules": true,
+	  "jsx": "preserve",
+	  "incremental": true,
+	  "paths": {
+		"@/*": ["./src/*"],
+		"micro_app/*": ["http://localhost:8080/*"]  // Resolving micro_app to the remote URL
+	  }
 	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/index.tsx"],
+	"include": [
+	  "next-env.d.ts",
+	  "**/*.ts",
+	  "**/*.tsx",
+	  ".next/types/**/*.ts",
+	  "src/index.tsx"
+	],
 	"exclude": ["node_modules"]
-}
+  }
+  

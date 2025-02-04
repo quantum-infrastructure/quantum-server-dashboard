@@ -34,10 +34,9 @@ export default function CreateGameInstanceComponent() {
     >
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">
-          Enter your game instance id
         </label>
         <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-[500px]"
           type="text"
           placeholder="Enter your game instance id"
           value={id}
@@ -47,12 +46,17 @@ export default function CreateGameInstanceComponent() {
         />
       </div>
 
-      <button
+{ createGameInstanceResult.loading?  <div className="flex justify-center">
+             <div className="w-6 h-6 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+           </div> :  <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         type="submit"
+        disabled={createGameInstanceResult.loading}
       >
         Create
-      </button>
+      </button>}
+
+     
     </form>
   );
 }

@@ -12,31 +12,25 @@
 
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authentication-context";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { ApiLookUpContext } from "../../context/api-look-up-context";
-
 
 function Login() {
   // const { user } = useAuth();
-  const { user, login,loginResult } = useContext(AuthContext);
+  const { user, login, loginResult } = useContext(AuthContext);
 
   const { graphUrl } = ApiLookUpContext();
-
-
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
 
-  if(loginResult.data?.login.success){
-    navigate('/dashboard', { replace: true });
-
+  if (loginResult.data?.login.success) {
+    navigate("/dashboard/file-upload", { replace: true });
   }
 
-
-  if(user){
-    navigate('/dashboard', { replace: true });
-
+  if (user) {
+    navigate("/dashboard/file-upload", { replace: true });
   }
 
   return (
@@ -45,8 +39,7 @@ function Login() {
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
           Sign In
           {/* {error ? <p style={{ color: 'red' }}>{error}</p> : <p>{graphUrl}</p>} */}
-          {graphUrl}
-
+          {/* {graphUrl} */}
         </h2>
         <form
           method="post"
@@ -62,7 +55,7 @@ function Login() {
         >
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
-              Username1
+              Username
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -90,12 +83,20 @@ function Login() {
             />
           </div>
           <div className="flex items-center justify-center">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-            >
-              Sign In
-            </button>
+            {loginResult.loading ? (
+             <div className="flex justify-center">
+             <div className="w-6 h-6 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+           </div>
+            ) : (
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type="submit"
+                disabled={loginResult.loading}
+              >
+                Sign In
+              </button>
+            )}
+
             {/* <button type="button" onClick={logout}>Sign Out</button> */}
           </div>
         </form>
@@ -105,20 +106,6 @@ function Login() {
 }
 
 export default Login;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // <form
 //   method="post"
@@ -153,15 +140,6 @@ export default Login;
 //   {user?.email} - - - - {sessionCheckStatus}
 
 // </form>
-
-
-
-
-
-
-
-
-
 
 // #   "build": "CI=false react-scripts build"
 
