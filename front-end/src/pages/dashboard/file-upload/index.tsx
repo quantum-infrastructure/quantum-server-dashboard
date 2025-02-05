@@ -9,7 +9,7 @@ function FileUpload (){
 
 
     return (
-        <div>
+        <div className="h-full min-h-screen p-5">
             <UploadForm/>
         </div>
     );

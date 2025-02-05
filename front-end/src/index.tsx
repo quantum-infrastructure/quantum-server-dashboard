@@ -44,7 +44,7 @@ root.render(
         <Route path="/dashboard/game-instance" element={<GameInstance />} />
         <Route path="/dashboard/game-instance/create-game-instance" element={<CreateGameInstance />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="*" element={<App />} />
+        <Route path="*" element={<Login />} />
       </Routes>
       </Main>
 

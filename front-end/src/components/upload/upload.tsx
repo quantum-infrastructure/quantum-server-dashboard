@@ -290,6 +290,8 @@ import {
   GeneratePresignedUrlMutation,
   GeneratePresignedUrlMutationVariables,
 } from "../../graphql/graphql";
+import clsx from "clsx";
+
 
 const UploadForm: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -373,9 +375,17 @@ const UploadForm: React.FC = () => {
     <div className="flex flex-col items-center justify-center max-w-md mx-auto w-[500px]">
       <label
         htmlFor="file-input"
-        className={`flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 transition ${
-          isDragging ? "bg-gray-200 border-blue-500" : "hover:bg-gray-100"
-        } ${isUploading ? "opacity-50 cursor-not-allowed" : ""}`}
+        // className={`flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 transition ${
+        //   isDragging ? "bg-gray-200 border-blue-500" : "hover:bg-gray-100"
+        // } ${isUploading ? "opacity-50 cursor-not-allowed" : ""}`}
+        className={clsx(
+          "flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 transition",
+          {
+            "bg-gray-200 border-blue-500": isDragging,
+            "hover:bg-gray-100": !isDragging,
+            "opacity-50 !cursor-not-allowed": isUploading,
+          }
+        )}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}

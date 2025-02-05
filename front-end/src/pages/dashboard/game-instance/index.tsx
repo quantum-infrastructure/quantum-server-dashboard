@@ -38,10 +38,10 @@ function GameInstance() {
     // if (error) return <p>Error: {error.message}</p>;
   
     return (
-      <div>
+      <div className="h-full min-h-screen p-5">
         <Link to="/dashboard/game-instance/create-game-instance">
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Create game instance
+            Create Game Instance
           </button>
         </Link>
   
