@@ -1,0 +1,11 @@
+
+query GetAllGameInstancess {
+  getAllGameInstancess {
+    success
+    data {
+      id
+      state
+      updated
+    }
+  }
+}

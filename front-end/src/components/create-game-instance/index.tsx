@@ -8,8 +8,13 @@ export default function CreateGameInstanceComponent() {
   const [amount, setAmount] = useState<number>(1);
   const [id, setId] = useState<string>("");
 
+
+
   const [createGameInstanceMutation, createGameInstanceResult] =
     useCreateGameInstanceMutation();
+
+    const disabled = createGameInstanceResult.loading || !id
+
 
   if (createGameInstanceResult.data?.createGameInstance.success) {
     navigate("/dashboard/game-instance", { replace: true });
@@ -26,37 +31,39 @@ export default function CreateGameInstanceComponent() {
       onSubmit={(e) => {
         e.preventDefault();
         createGameInstanceMutation({
-         variables:{
-          id : id
-         }
+          variables: {
+            id: id,
+          },
         });
       }}
     >
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
-        </label>
+        <label className="block text-gray-700 text-sm font-bold mb-2"></label>
         <input
           className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-[500px]"
           type="text"
           placeholder="Enter your game instance id"
           value={id}
           onChange={(e: any) => {
-           setId(e.target.value)
+            setId(e.target.value);
           }}
         />
       </div>
 
-{ createGameInstanceResult.loading?  <div className="flex justify-center">
-             <div className="w-6 h-6 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
-           </div> :  <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      {createGameInstanceResult.loading ? (
+        <div className="flex justify-center">
+          <div className="w-6 h-6 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+        </div>
+      ) : (
+        <button
+        className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline 
+          ${disabled ? ' bg-gray-300  hover:bg-gray-300 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline  cursor-not-allowed' : ''}`}
         type="submit"
-        disabled={createGameInstanceResult.loading}
+        disabled={disabled}
       >
         Create
-      </button>}
-
-     
+      </button>
+      )}
     </form>
   );
 }

@@ -46,7 +46,7 @@
 
 // }
 
-import { Resolver, Query, Mutation, Arg, ObjectType, Field } from "type-graphql";
+import { Resolver, Query, Mutation, Arg, ObjectType, Field, Int } from "type-graphql";
 import { Service } from "typedi";
 import { GameInstanceService } from "./game-instance.service";
 import { GameInstanceType } from "./game-instance.types";
@@ -57,12 +57,25 @@ import { MutationReturnType,QueryReturnType } from "../basic-respones/basic-resp
 
 
 @ObjectType()
+class GameInstanceResponsee {
+  @Field(() => Boolean)
+  success: boolean;
+
+  @Field(() => [GameInstanceType])
+  data: GameInstanceType[];
+
+}
+
+@ObjectType()
 class GameInstanceResponse {
   @Field(() => Boolean)
   success: boolean;
 
   @Field(() => [GameInstanceType])
   data: GameInstanceType[];
+
+  @Field(() => Int) // Add this field
+  totalCount: number;
 }
 
 
@@ -104,9 +117,9 @@ export class GameInstanceResolver {
   // }
 
 
-  @Query(() => GameInstanceResponse)
-  async getAllGameInstances(): Promise<GameInstanceResponse> {
-    const rawInstances = await this.gameInstanceService.getAllGameInstances();
+  @Query(() => GameInstanceResponsee)
+  async getAllGameInstancess(): Promise<GameInstanceResponsee> {
+    const rawInstances = await this.gameInstanceService.getAllGameInstancess();
 
   // Convert raw objects to plain objects
   // const instances = rawInstances.map((instance) => {
@@ -141,4 +154,27 @@ export class GameInstanceResolver {
   ): Promise<boolean> {
     return this.gameInstanceService.deleteGameInstance(gameInstanceId);
   }
+
+
+  @Query(() => GameInstanceResponse)
+async getAllGameInstances(
+  @Arg("skip", () => Int, { defaultValue: 0 }) skip: number,
+  @Arg("take", () => Int, { defaultValue: 5 }) take: number
+): Promise<GameInstanceResponse> {
+  const { data, totalCount } = await this.gameInstanceService.getAllGameInstances(skip, take);
+
+  const instances = data.filter(instance => instance.id && instance.state);
+
+  return {
+    success: true,
+    data: instances,
+    totalCount,
+  };
+}
+
+
+
+
+
+
 }

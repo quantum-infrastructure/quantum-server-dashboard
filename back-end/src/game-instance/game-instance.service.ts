@@ -50,7 +50,7 @@ export class GameInstanceService {
     return JSON.parse(gameInstanceData) as GameInstanceType; 
   }
 
-  async getAllGameInstances(): Promise<GameInstanceType[]> {
+  async getAllGameInstancess(): Promise<GameInstanceType[]> {
 
     // await this.redisService.redisClient.flushDb();
 
@@ -106,13 +106,41 @@ export class GameInstanceService {
     const key = `${gameInstanceId}:game_instance`;
     const result = await this.redisService.redisClient.del(key);
     const cleanGameInstanceId = gameInstanceId.trim();
-console.log(cleanGameInstanceId,"VAAAA")
     // const zRangeResult = await this.redisService.redisClient.zRem('updated_game_instances',cleanGameInstanceId);
     const zRangeResult = await this.redisService.redisClient.zRem('updated_game_instances', `${cleanGameInstanceId}:game_instance`);
 
     return result === 1 || zRangeResult > 0;
   }
 
+
+
+
+
+
+  async getAllGameInstances(skip : number, take :number): Promise<{ data: GameInstanceType[]; totalCount: number }> {
+    // Get the total count of game instances
+    const totalCount = await this.redisService.redisClient.zCard("updated_game_instances");
+
+    if (totalCount === 0) {
+        return { data: [], totalCount: 0 };
+    }
+
+    // Retrieve paginated game instance keys
+    const keys = await this.redisService.redisClient.zRange("updated_game_instances", skip, skip + take - 1);
+
+    if (!keys.length) {
+        return { data: [], totalCount };
+    }
+
+    const results: GameInstanceType[] = [];
+
+    for (const key of keys) {
+        const hash = await this.redisService.redisClient.hGetAll(key);
+        results.push(hash);
+    }
+
+    return { data: results, totalCount };
+}
 
 
 

@@ -1,11 +1,15 @@
 
-query GetAllGameInstances {
-  getAllGameInstances {
-    success
-    data {
-      id
-      state
-      updated
+ query getAllGameInstances($skip: Int, $take: Int) {
+    getAllGameInstances(skip: $skip, take: $take) {
+      success
+  totalCount
+      data {
+        id
+        state
+updated
+
+      }
+      
     }
   }
-}
+

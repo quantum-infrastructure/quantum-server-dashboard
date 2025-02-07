@@ -13,12 +13,18 @@ export default function Main({ children }: LayoutProps): JSX.Element {
 	const { user, login, logout, sessionCheckStatus } = useContext(AuthContext);
 	// 767px
 	return (
-		<div
-		 >
-			<Header/>
+		// <div
+		//  >
+		// 	<Header/>
 			
-					<MainBodyLayout>{children}</MainBodyLayout>
+		// 			<MainBodyLayout>{children}</MainBodyLayout>
 
+		// </div>
+		<div className="h-screen flex flex-col">
+		<Header />
+		<div className="flex-1 overflow-auto">
+		  <MainBodyLayout>{children}</MainBodyLayout>
 		</div>
+	  </div>
 	);
 }

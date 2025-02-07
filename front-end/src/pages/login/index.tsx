@@ -84,12 +84,17 @@ function Login() {
           </div>
           <div className="flex items-center justify-center">
             {loginResult.loading ? (
-             <div className="flex justify-center">
-             <div className="w-6 h-6 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
-           </div>
+              <div className="flex justify-center">
+                <div className="w-6 h-6 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+              </div>
             ) : (
               <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline 
+          ${
+            loginResult.loading
+              ? " bg-gray-300  hover:bg-gray-300 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline  cursor-not-allowed"
+              : ""
+          }`}
                 type="submit"
                 disabled={loginResult.loading}
               >

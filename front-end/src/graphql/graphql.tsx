@@ -34,6 +34,13 @@ export type GameInstanceResponse = {
   __typename?: 'GameInstanceResponse';
   data: Array<GameInstance>;
   success: Scalars['Boolean']['output'];
+  totalCount: Scalars['Int']['output'];
+};
+
+export type GameInstanceResponsee = {
+  __typename?: 'GameInstanceResponsee';
+  data: Array<GameInstance>;
+  success: Scalars['Boolean']['output'];
 };
 
 export type Mutation = {
@@ -63,8 +70,15 @@ export type MutationLoginArgs = {
 export type Query = {
   __typename?: 'Query';
   getAllGameInstances: GameInstanceResponse;
+  getAllGameInstancess: GameInstanceResponsee;
   getGameInstance?: Maybe<GameInstance>;
   getSession: SessionTypeResponse;
+};
+
+
+export type QueryGetAllGameInstancesArgs = {
+  skip?: Scalars['Int']['input'];
+  take?: Scalars['Int']['input'];
 };
 
 
@@ -110,10 +124,18 @@ export type DeleteGameInstanceMutationVariables = Exact<{
 
 export type DeleteGameInstanceMutation = { __typename?: 'Mutation', deleteGameInstance: boolean };
 
-export type GetAllGameInstancesQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetAllGameInstancesQueryVariables = Exact<{
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+}>;
 
 
-export type GetAllGameInstancesQuery = { __typename?: 'Query', getAllGameInstances: { __typename?: 'GameInstanceResponse', success: boolean, data: Array<{ __typename?: 'GameInstance', id: string, state: string, updated: number }> } };
+export type GetAllGameInstancesQuery = { __typename?: 'Query', getAllGameInstances: { __typename?: 'GameInstanceResponse', success: boolean, totalCount: number, data: Array<{ __typename?: 'GameInstance', id: string, state: string, updated: number }> } };
+
+export type GetAllGameInstancessQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllGameInstancessQuery = { __typename?: 'Query', getAllGameInstancess: { __typename?: 'GameInstanceResponsee', success: boolean, data: Array<{ __typename?: 'GameInstance', id: string, state: string, updated: number }> } };
 
 export type GetGameInstanceQueryVariables = Exact<{
   gameInstanceId: Scalars['String']['input'];
@@ -208,9 +230,10 @@ export type DeleteGameInstanceMutationHookResult = ReturnType<typeof useDeleteGa
 export type DeleteGameInstanceMutationResult = Apollo.MutationResult<DeleteGameInstanceMutation>;
 export type DeleteGameInstanceMutationOptions = Apollo.BaseMutationOptions<DeleteGameInstanceMutation, DeleteGameInstanceMutationVariables>;
 export const GetAllGameInstancesDocument = gql`
-    query GetAllGameInstances {
-  getAllGameInstances {
+    query getAllGameInstances($skip: Int, $take: Int) {
+  getAllGameInstances(skip: $skip, take: $take) {
     success
+    totalCount
     data {
       id
       state
@@ -232,6 +255,8 @@ export const GetAllGameInstancesDocument = gql`
  * @example
  * const { data, loading, error } = useGetAllGameInstancesQuery({
  *   variables: {
+ *      skip: // value for 'skip'
+ *      take: // value for 'take'
  *   },
  * });
  */
@@ -251,6 +276,50 @@ export type GetAllGameInstancesQueryHookResult = ReturnType<typeof useGetAllGame
 export type GetAllGameInstancesLazyQueryHookResult = ReturnType<typeof useGetAllGameInstancesLazyQuery>;
 export type GetAllGameInstancesSuspenseQueryHookResult = ReturnType<typeof useGetAllGameInstancesSuspenseQuery>;
 export type GetAllGameInstancesQueryResult = Apollo.QueryResult<GetAllGameInstancesQuery, GetAllGameInstancesQueryVariables>;
+export const GetAllGameInstancessDocument = gql`
+    query GetAllGameInstancess {
+  getAllGameInstancess {
+    success
+    data {
+      id
+      state
+      updated
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAllGameInstancessQuery__
+ *
+ * To run a query within a React component, call `useGetAllGameInstancessQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllGameInstancessQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllGameInstancessQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllGameInstancessQuery(baseOptions?: Apollo.QueryHookOptions<GetAllGameInstancessQuery, GetAllGameInstancessQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllGameInstancessQuery, GetAllGameInstancessQueryVariables>(GetAllGameInstancessDocument, options);
+      }
+export function useGetAllGameInstancessLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllGameInstancessQuery, GetAllGameInstancessQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllGameInstancessQuery, GetAllGameInstancessQueryVariables>(GetAllGameInstancessDocument, options);
+        }
+export function useGetAllGameInstancessSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllGameInstancessQuery, GetAllGameInstancessQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAllGameInstancessQuery, GetAllGameInstancessQueryVariables>(GetAllGameInstancessDocument, options);
+        }
+export type GetAllGameInstancessQueryHookResult = ReturnType<typeof useGetAllGameInstancessQuery>;
+export type GetAllGameInstancessLazyQueryHookResult = ReturnType<typeof useGetAllGameInstancessLazyQuery>;
+export type GetAllGameInstancessSuspenseQueryHookResult = ReturnType<typeof useGetAllGameInstancessSuspenseQuery>;
+export type GetAllGameInstancessQueryResult = Apollo.QueryResult<GetAllGameInstancessQuery, GetAllGameInstancessQueryVariables>;
 export const GetGameInstanceDocument = gql`
     query GetGameInstance($gameInstanceId: String!) {
   getGameInstance(gameInstanceId: $gameInstanceId) {

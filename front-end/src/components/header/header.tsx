@@ -10,12 +10,13 @@ export default function Header() {
 
       {/* <a href="/"> */}
         <img
-          style={{ width: "125px", height: "45px" }}
+          // style={{ width: "125px", height: "45px" }}
           src="/Quantum logo.png"
+          className="w-[125px] h-[45px]"
         />
       {/* </a> */}
       {!user ? (
-        <></>
+        null
       ) : (
         <button
           onClick={logout}
